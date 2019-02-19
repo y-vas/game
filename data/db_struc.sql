@@ -115,12 +115,16 @@ SELECT in_nam as name, sg_pass as pass FROM  _entity
 INSERT INTO _type
   ( tp_type, tp_def)
 VALUES
-  (1,'user'),
-  (2,'person'),
-  (3,'bill'),
-  (4,'work_day'),
-  (5,'company'),
-  (6,'domiciliacion_bancaria'),
-  (7,'object'),
-  (8,'vertex'),
-  (9,'face');
+(1,'NULL'),
+(2,'PERSON'),
+(3,'USER'),
+(4,'BILL'),
+(5,'WORK DAY'),
+(6,'COMPANY'),
+(7,'DIRECT DEBIT'),
+(8,'VERTEX'),
+(9,'CURRICULUM'),
+(10,'POLY FACE'),
+(11,'OBJECT'),
+(12,'SERVICE'),
+(13,'AUX');

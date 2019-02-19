@@ -15,7 +15,7 @@ class SQL():
         self.db = os.path.join(directory, "data",db+".db")
         if not os.path.exists(self.db):
             open(self.db,"w")
-            self.add_database()
+            # self.add_database()
 
     def execute(self, query):
         db = sqlite3.connect(self.db)
