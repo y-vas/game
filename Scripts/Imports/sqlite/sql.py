@@ -12,7 +12,7 @@ import sqlite3
 class SQL():
     def __init__(self, db):
         super(SQL, self).__init__()
-        self.db = os.path.join(directory, "data",db+".db")
+        self.db = os.path.join(directory,db+".db")
         if not os.path.exists(self.db):
             open(self.db,"w")
             # self.add_database()

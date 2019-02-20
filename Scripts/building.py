@@ -3,7 +3,7 @@ import object_generation as obj_gen
 
 
 def generateStruc():
-    print("----------------------------------- New Structure ------------------------------------------")
+    print("------------------------------------------ New Structure ------------------------------------------")
 
     ut.reloadTexts()
     ut.delete_objects_from_layer(0)

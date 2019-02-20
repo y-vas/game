@@ -10,11 +10,8 @@ for appends in file:
     if file not in sys.path:
        sys.path.append(file)
 
-
-
 import player_movement
 imp.reload(player_movement)
-
 
 from bge import logic as L
 
@@ -28,7 +25,6 @@ RUN_TYPE = 0;
 
 def run():
     global PAUSE
-    global
 
     if RUN_TYPE = 0:
         load_defaults()
@@ -37,7 +33,6 @@ def run():
 
 
 def load_defaults():
-
     pass
 
 def load_menu():
