@@ -5,7 +5,7 @@
 
 
 
-
+print("dfasdf")
 
 # import bge
 # #Abbreviations:

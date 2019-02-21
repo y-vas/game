@@ -2,4 +2,6 @@ initial.blend1
 init.blend1
 run.blend1
 Scripts/__pycache__/
+Scripts/Movement/__pycache__/
+Scripts/HUD/__pycache__/
 Scripts/Imports/sqlite/__pycache__/

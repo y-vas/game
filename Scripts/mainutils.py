@@ -3,7 +3,7 @@ import math ,mathutils, random, decimal
 from mathutils import Vector, Euler
 import bpy
 import sys, os, shutil, time
-import imp
+# import imp
 
 
 dependencies_folder = "Imports"
@@ -12,6 +12,9 @@ sqlset = os.path.join(os.path.dirname(bpy.data.filepath), "Scripts", dependencie
 # sp = sql.SQL("data");
 # scene = L.getCurrentScene()
 # SO = scene.objects
+
+def testdef():
+    print("everithing OK")
 
 def sql_query(query):
     if sqlset not in sys.path:
