@@ -1,6 +1,0 @@
--ampliar_mapa
--controlador_personatge
-
-
-in vertex gen init for blender 2.8
-  # bpy.data.collections['vertex_gen'].objects.link(my_obj) # b2.8
