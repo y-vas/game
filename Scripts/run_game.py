@@ -36,6 +36,4 @@ def run():
     if RUN_TYPE == 0:
         game_playng.testdef()
     elif RUN_TYPE == 1:
-        # game_menu.testdef();
-
-        print(L.keyboard.events)
+        game_menu.menu(L.getCurrentScene().active_camera);
