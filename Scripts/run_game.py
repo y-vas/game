@@ -15,12 +15,17 @@ for file in appends:
         sources.append(imp.load_source('', file[0]))
 
 game_playng = sources[0];
-game_menu = sources[1];
 
 from bge import logic as L
 from bge import events
 
+L.addScene("Hud",1)
+
 scene = L.getCurrentScene()
+HUD = L.getSceneList()[1]
+
+
+
 SO = scene.objects;
 
 cube = SO["Cube"];
@@ -36,4 +41,6 @@ def run():
     if RUN_TYPE == 0:
         game_playng.testdef()
     elif RUN_TYPE == 1:
-        game_menu.menu(L.getCurrentScene().active_camera);
+        print(HUD)
+
+        # sources[1].menu(L.getCurrentScene().active_camera);
