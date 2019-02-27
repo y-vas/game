@@ -29,7 +29,7 @@ def menu():
     print(objects)
 
 
-    mesh.transform(1)
+    # mesh.transform(1)
     # bpy.context.scene.objects.link(my_obj)
 
 
