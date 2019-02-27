@@ -14,7 +14,7 @@ def init(strna ,verts, edges, faces, mats):
         apply_polygons(my_obj,value[1],inx)
 
     bpy.context.scene.objects.link(my_obj)
-
+    # print(my_obj)
 
 
 def apply_polygons(obj,faces, inx):

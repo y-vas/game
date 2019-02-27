@@ -5,6 +5,14 @@ from random import randint
 import mainutils as ut
 from mathutils import Vector, Euler ,Matrix
 
+
+
+
+
+
+
+
+
 def generateStruc():
     print("----------------------------------- New Structure ------------------------------------------")
 
@@ -12,9 +20,9 @@ def generateStruc():
     # ut.delete_objects_from_layer(0)
     #
     # sta = Structure(5,"struc")
-    # # sta = Structure(5,"struc")
+    sta = Structure(5,"struc")
     #
-    # sta.make_object();
+    sta.make_object();
     #
     # obj_gen.init("__Main_Structure__",
     #      sta.get_vectors(),
@@ -22,6 +30,8 @@ def generateStruc():
     #      sta.get_faces(),
     #      sta.get_materials()
     #     )
+
+    return sta.get_vectors()
 
     # sta = ut.import_image();
     # obj_gen.init("__Main_Structure__",
