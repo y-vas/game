@@ -1,24 +1,18 @@
 import sys, os, bpy, imp
 
-scripts = os.path.join(os.path.dirname(bpy.data.filepath), "Scripts")
+directory = os.path.dirname(bpy.data.filepath)
+scripts = os.path.join(directory, "code")
 if scripts not in sys.path:
    sys.path.append(scripts) #adding scripts to syspath
 
-from HUD import game_menu as gm
-
-directory = os.path.dirname(bpy.data.filepath)
-
+from hud import game_menu as gm
 from bge import logic as L
 from bge import events
 
 L.addScene("Hud",1)
 
 scene = L.getCurrentScene()
-
-HUD = L.getSceneList()
-
 SO = scene.objects;
-
 cube = SO["Cube"];
 
 PAUSE = 0;

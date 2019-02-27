@@ -490,4 +490,4 @@ class Structure():
 
         return mates
 
-generateStruc()
+# generateStruc()

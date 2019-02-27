@@ -1,5 +1,4 @@
-
-# game_menu = imp.load_source('', os.path.join(directory, "Imports","HUD","game_menu.py") );
+from imports.obj_gen import vert_gen
 
 def menu():
     # camera = L.getCurrentScene().active_camera
