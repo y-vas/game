@@ -9,7 +9,6 @@ import sys, os, shutil, time
 dependencies_folder = "Imports"
 sqlset = os.path.join(os.path.dirname(bpy.data.filepath), "Scripts", dependencies_folder, "sqlite")
 
-
 # sp = sql.SQL("data");
 # scene = L.getCurrentScene()
 # SO = scene.objects
