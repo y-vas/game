@@ -1,9 +1,12 @@
 import sys, os, bpy, imp
 
+scripts = os.path.join(os.path.dirname(bpy.data.filepath), "Scripts")
+if scripts not in sys.path:
+   sys.path.append(scripts) #adding scripts to syspath
+
+from HUD import game_menu as gm
 
 directory = os.path.dirname(bpy.data.filepath)
-
-game_menu = imp.load_source('', os.path.join(directory, "Scripts","HUD","game_menu.py") );
 
 from bge import logic as L
 from bge import events
@@ -22,6 +25,8 @@ PAUSE = 0;
 
 RUN_TYPE = 1;
 
+gm.menu();
+
 def run():
     global PAUSE
     global RUN_TYPE
@@ -30,6 +35,5 @@ def run():
         # game_playng.testdef()
         pass
     elif RUN_TYPE == 1:
-        print(L.getSceneList()[1])
-
-        # game_menu.menu(L.getCurrentScene().active_camera);
+        # print(L.getSceneList()[1])
+        pass
