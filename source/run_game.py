@@ -29,3 +29,16 @@ def start_functions():
 
     gm.menu();
     pass
+
+
+
+# def start_game():
+# 	loaf_map()
+# 	load_prefabrics()
+# 	load_defaults()
+#
+# def load_map():
+# 	sql = SQL()
+# 	facec = sql.query("SELECT * FROM faces where distance = ").copy()
+# 	for vc in faces:
+# 		vtc = sql.query("select * from vertices where id = "+str(vc))
