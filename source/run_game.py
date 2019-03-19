@@ -3,7 +3,9 @@ import sys, os, bpy, imp
 directory = os.path.dirname(bpy.data.filepath)
 scripts = os.path.join(directory, "code")
 if scripts not in sys.path:
-   sys.path.append(scripts) #adding scripts to syspath
+   sys.path.append(scripts)
+
+#adding scripts to syspath
 
 from hud import game_menu as gm
 import bge
@@ -33,7 +35,7 @@ def start_functions():
 
 
 # def start_game():
-# 	loaf_map()
+# 	load_map()
 # 	load_prefabrics()
 # 	load_defaults()
 #
