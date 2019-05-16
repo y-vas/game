@@ -10,20 +10,15 @@ from mathutils import Vector, Euler ,Matrix
 
 
 
-
-
-
 def generateStruc():
     print("----------------------------------- New Structure ------------------------------------------")
 
     # ut.reloadTexts()
     # ut.delete_objects_from_layer(0)
-    #
     # sta = Structure(5,"struc")
     sta = Structure(5,"struc")
     #
     sta.make_object();
-    #
     # obj_gen.init("__Main_Structure__",
     #      sta.get_vectors(),
     #      [],
@@ -67,6 +62,56 @@ class Structure():
         self.STRUC_HEIGHT = 2
         self.IDS = 0;
 
+    def save_structure(self):
+        name = self.NAME
+        i = 1;
+        while len(ut.sql_query("SELECT name FROM structures WHERE name ="+name)) > 0:
+            name = self.NAME+"_"+i;
+
+        id = ut.sql_insert("INSERT INTO structures (name) VALUES ("+name+")");
+        for face in self.FACES:
+            verts = self.get_verts_from_face(face);
+            face_verts = []
+            for vert in verts:
+                v = ut.sql_query("SELECT id FROM vertices WHERE x ="+vert.x+" y="+vert.y+" z ="+vert.z);
+                # reuse the vertices to save posible space
+                if len(v) > 0:
+                    face_verts.append(v["id"]);
+                    continue;
+
+                vid = ut.sql_insert("INSERT INTO vertices (x,y,x) VALUES ("+vert.x+","+vert.y+","+vert.z+")");
+                face_verts.append(vid);
+
+                pass
+            # need to convert face_vert into string to catch them better
+            id = ut.sql_insert("INSERT INTO faces (verts,id_structure) VALUES ("+face_vers+","+id+")");
+            pass
+        pass
+
+    def get_stored(self,name):
+        structure = ut.sql_query("SELECT id FROM structures WHERE name = "+name)
+
+        stored_verts = stored_faces = [];
+
+        faces = ut.sql_query("SELECT verts FROM faces WHERE id_structure = "+structure["id"])
+        for face in faces:
+            stored_face = []
+            for vert in face["verts"].split(","):
+                v = ut.sql_query("SELECT * FROM vertices WHERE id = "+vert)
+
+                vert_pos = len(stored_verts);
+                v = Vector((v["z"],v["y"],v["z"]));
+
+                # check if vector is a stored verts 
+
+                stored_verts.append(v);
+                stored_face.append(vert_pos);
+                pass
+
+            stored_faces.append(stored_face);
+
+        return stored_faces,stored_verts
+
 
     def make_object(self):
         self.set_plane_structure();
@@ -102,7 +147,6 @@ class Structure():
                 # vc = Vector((-((holsx*size)/2)+x*size+size/2+hx,-((holsy*size)/2)+y*size+size/2,0+hy))
                 # str.set_plane_struct_pos(vc);
                 str.set_plane_struct_orient(quat_diff)
-
                 str.delimite_structure_in_face(verts)
                 str.set_plane_struct_pos(newv);
                 self.append_vectors(str.get_structural_vectors())
@@ -130,7 +174,6 @@ class Structure():
         str.set_structure_extrusion(False);
 
         return str
-
 
 
     def delimite_structure_in_face(self, v_delim):
