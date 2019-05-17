@@ -1,5 +1,6 @@
 import mathutils ,random ,math
 import bpy, os
+from bgl import *
 import object_generation as obj_gen
 from random import randint
 import mainutils as ut
@@ -19,14 +20,14 @@ def generateStruc():
     sta = Structure(5,"struc")
     #
     sta.make_object();
-    # obj_gen.init("__Main_Structure__",
-    #      sta.get_vectors(),
-    #      [],
-    #      sta.get_faces(),
-    #      sta.get_materials()
-    #     )
+    obj_gen.init("__Main_Structure__",
+         sta.get_vectors(),
+         [],
+         sta.get_faces(),
+         sta.get_materials()
+        )
 
-    return sta.get_vectors()
+    # return sta.get_vectors()
 
     # sta = ut.import_image();
     # obj_gen.init("__Main_Structure__",
@@ -88,8 +89,12 @@ class Structure():
             pass
         pass
 
-    def get_stored(self,name):
+    def get_stored(self,name,traingulated = True):
         structure = ut.sql_query("SELECT id FROM structures WHERE name = "+name)
+
+        if structure == None :
+            print("This object do not exist in your database!!");
+            return None;
 
         stored_verts = stored_faces = [];
 
@@ -102,16 +107,32 @@ class Structure():
                 vert_pos = len(stored_verts);
                 v = Vector((v["z"],v["y"],v["z"]));
 
-                # check if vector is a stored verts 
+                if v in stored_verts:
+                    vert_pos = stored_verts.index(v)
+                    stored_face.append(vert_pos);
+                    continue;
 
                 stored_verts.append(v);
                 stored_face.append(vert_pos);
                 pass
 
+            if len(stored_face) < 3:
+                print("A stored face could no has all the needet vertices!!");
+                continue;
+
+            # triangulation
+            # if traingulated and len(stored_face) != 3:
+            #     for v in stored_face:
+            #
+            #         pass
+
             stored_faces.append(stored_face);
 
         return stored_faces,stored_verts
 
+    def render_object():
+
+        pass
 
     def make_object(self):
         self.set_plane_structure();
