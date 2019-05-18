@@ -8,9 +8,6 @@ from mathutils import Vector, Euler ,Matrix
 
 
 
-
-
-
 def generateStruc():
     print("----------------------------------- New Structure ------------------------------------------")
 
