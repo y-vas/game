@@ -2,44 +2,44 @@ from bgl import *
 
 class PostDraw():
 	def __init__(self, vertices, faces, properties ,vertex_shader = "", fragment_shader = ""):
-		self.VERTICES = vertices;
-        self.FACES = faces
+		self.VERTICES = vertices
+		self.FACES = faces
 		self.PROGRAM = glCreateProgram();
-		self.PROPERETIES = [];
+		self.PROPERETIES = properties;
 
-		if vertex_shader == "":
-			vertex_shader == self.__default_vertex_shader();
+		if len(vertex_shader) == 0:
+			vertex_shader = self.__default_vertex_shader();
 
-		if fragment_shader == "":
-			fragment_shader == self.__default_fragment_shader();
+		if len(fragment_shader) == 0:
+			fragment_shader = self.__default_fragment_shader();
 
-	    shaderVert = self.__compile_shader(GL_VERTEX_SHADER,vertex_shader)
-	    shaderFrag = self.__compile_shader(GL_FRAGMENT_SHADER,fragment_shader)
+		shaderVert = self.__compile_shader(GL_VERTEX_SHADER,vertex_shader)
+		shaderFrag = self.__compile_shader(GL_FRAGMENT_SHADER,fragment_shader)
 
-	    glAttachShader(self.PROGRAM, shaderVert)
-	    glAttachShader(self.PROGRAM, shaderFrag)
+		glAttachShader(self.PROGRAM, shaderVert)
+		glAttachShader(self.PROGRAM, shaderFrag)
 
-	    glLinkProgram(self.PROGRAM)
+		glLinkProgram(self.PROGRAM)
 
-	    glDeleteShader(shaderVert)
-	    glDeleteShader(shaderFrag)
+		glDeleteShader(shaderVert);
+		glDeleteShader(shaderFrag);
 
 
 	def __object(self):
-		glUseProgram(self.PROGRAM)
+		glUseProgram(self.PROGRAM);
 
-		for k,v in sel.PROPERETIES:
+		for k,v in self.PROPERETIES.items():
 			glUniform1f(glGetUniformLocation(self.PROGRAM, k), v);
 			pass
 
 		for face in self.FACES:
 			glBegin(GL_POLYGON)
 			for v in face:
-				vert = self.VERTICES
+				vert = self.VERTICES[v]
 				glVertex3f (vert.x,vert.y,vert.z)
-			glEnd()
+			glEnd();
 
-	    glUseProgram(0);
+		glUseProgram(0)
 
 	def __compile_shader(self, shader_type, shader_source):
 	    shader = glCreateShader(shader_type)
@@ -59,7 +59,7 @@ class PostDraw():
 	    py_log_str = ""
 	    for c in py_log:
 	        py_log_str += str(chr(c))
-	    print(str(py_log_str))
+	    print(str(py_log_str));
 	    return shader
 
 	def use(self,scene):

@@ -1,4 +1,5 @@
 *.blend1
 
-code/__pycache__/
+source/__pycache__/
 code/hud/__pycache__/
+*/__pycache_/

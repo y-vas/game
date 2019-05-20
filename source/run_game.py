@@ -1,35 +1,31 @@
-import sys, os, bpy, imp
+import sys, os, bpy, imp, bge
 
+## adding scripts to syspath
 directory = os.path.dirname(bpy.data.filepath)
-scripts = os.path.join(directory, "code")
+scripts = os.path.join(directory, "source")
 if scripts not in sys.path:
    sys.path.append(scripts)
 
-#adding scripts to syspath
 
-from hud import game_menu as gm
-import bge
+# from hud import game_menu as gm
 
 PAUSE = 0;
 RUN_TYPE = 1;
-STARTED = False;
-gm.menu();
+# STARTED = False;
+# gm.menu();
 
 def run():
     global PAUSE
     global RUN_TYPE
 
     if RUN_TYPE == 0:
-
         pass
     elif RUN_TYPE == 1:
-
         pass
 
 def start_functions():
     global STARTED
-
-    gm.menu();
+    # gm.menu();
     pass
 
 

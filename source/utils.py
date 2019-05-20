@@ -5,7 +5,6 @@ from mathutils import Vector, Euler
 # scene = L.getCurrentScene()
 # SO = scene.objects
 
-
 def getIncenter(verts):
     for i, e in enumerate(verts):
         if index != 0:

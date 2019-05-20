@@ -1,15 +1,15 @@
 import mathutils ,random ,math
-import bpy, os
-from bgl import *
-import object_generation as obj_gen
-from random import randint
 import mainutils as ut
+import bpy, os
+import object_generation as obj_gen
+
+from random import randint
 from mathutils import Vector, Euler ,Matrix
 
 
 
 def generateStruc():
-    print("----------------------------------- New Structure ------------------------------------------")
+    print("----------------------------------- New Structure ------------------------------------------");
 
     # ut.reloadTexts()
     # ut.delete_objects_from_layer(0)
@@ -114,10 +114,10 @@ class Structure():
                 pass
 
             if len(stored_face) < 3:
-                print("A stored face could no has all the needet vertices!!");
+                print("A stored face doesn't all the needet vertices!!");
                 continue;
 
-            # triangulation
+            # triangulation // could be useful
             # if traingulated and len(stored_face) != 3:
             #     for v in stored_face:
             #
@@ -128,7 +128,6 @@ class Structure():
         return stored_faces,stored_verts
 
     def render_object():
-
         pass
 
     def make_object(self):
@@ -137,9 +136,9 @@ class Structure():
         self.set_structure_extrusion(False);
 
         self.add_material('gen', (0.749,0.5725,0.392), (1.0,1.0,1), 1.0)
-        self.add_material('Blu', (0,0,1), (0.5,0.5,0), 0.5)
-
+        self.add_material('blu', (0,0,1), (0.5,0.5,0), 0.5)
         # self.add_multipe_holes_in_face(self.FACES[3],0.7,1,8,0,0)
+
         newFaces = []
         for face in self.FACES:
             newFaces.append(self.add_hole_in_face(face,0.9))
