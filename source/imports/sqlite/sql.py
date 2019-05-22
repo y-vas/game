@@ -1,12 +1,3 @@
-import bpy, os, sys
-
-filepath = bpy.data.filepath
-directory = os.path.dirname(filepath)
-sqli = os.path.join(directory, "Scripts", "Imports", "sqlite","sqlite3.h")
-
-if sqli not in sys.path:
-   sys.path.append(sqli)
-
 import sqlite3
 
 class SQL():
@@ -15,7 +6,7 @@ class SQL():
         self.db = os.path.join(directory,db+".db")
         if not os.path.exists(self.db):
             open(self.db,"w")
-            # self.add_database()
+            self.add_database()
 
     def execute(self, query):
         db = sqlite3.connect(self.db)
@@ -45,10 +36,32 @@ class SQL():
         conn.commit()
         pass
 
+    def set_db_structure():
+        structure = """
+        -- basic tables --
+        CREATE TABLE IF NOT EXISTS `structures` (
+        `id` INT NOT NULL AUTO_INCREMENT,
+        `name` VARCHAR(255) NULL,
+        PRIMARY KEY (`id`));
+
+        CREATE TABLE IF NOT EXISTS `vertices` (
+        `id` INT NOT NULL AUTO_INCREMENT,
+        `x` DOUBLE NULL,
+        `y` DOUBLE NULL,
+        `z` DOUBLE NULL,
+        PRIMARY KEY (`id`));
+
+        CREATE TABLE IF NOT EXISTS `faces` (
+        `id` INT NOT NULL AUTO_INCREMENT,
+        `verts` TEXT NULL,
+        PRIMARY KEY (`id`));
+
+        """;
+        pass
+
     def insert_and_get_last_serial(self, query):
         conn = sqlite3.connect(self.db)
         c = conn.cursor()
-
         ins = query.split(" ")
         try:
           c.execute(query)

@@ -1,5 +1,5 @@
 from bge import logic, texture
-from build import *
+from engine.render.build import *
 from mathutils import Vector
 
 # use it as a module and autoloait each time set the D on
@@ -17,8 +17,8 @@ verts =[ Vector( (0,    0,1) ),
         ]
 
 properties = {
-              "timer": own["timer"],
-              "cont": own["cont"]
+              "timer": 10,
+              "cont": 15
               }
 
 draw = PostDraw(verts,faces,properties,"","")

@@ -1,51 +1,38 @@
 import mathutils ,random ,math
 import mainutils as ut
-import bpy, os
-import object_generation as obj_gen
-
 from random import randint
 from mathutils import Vector, Euler ,Matrix
 
-
-
-def generateStruc():
-    print("----------------------------------- New Structure ------------------------------------------");
-
-    # ut.reloadTexts()
-    # ut.delete_objects_from_layer(0)
-    # sta = Structure(5,"struc")
-    sta = Structure(5,"struc")
-    #
-    sta.make_object();
-    obj_gen.init("__Main_Structure__",
-         sta.get_vectors(),
-         [],
-         sta.get_faces(),
-         sta.get_materials()
-        )
-
-    # return sta.get_vectors()
-
-    # sta = ut.import_image();
-    # obj_gen.init("__Main_Structure__",
-    #      sta[0],
-    #      [],
-    #      sta[1],
-    #      []
-    #     )
-
-    # for x in sta[1]:
-        # pass
-
-    # ser = ut.sql_insert("INSERT INTO _type (tp_type, tp_def) VALUES (15,'test')")
-    # print(ser)
-    # data = ut.sql_query("SELECT tp_type FROM _type ;")
-    # print(data)
-
-
-    # sta2 = sta.get_delimiters_as_areas();
-    # init(sta2[0],sta2[1],sta2[2],sta2[3])
-
+# def generateStruc():
+#     print("----------------------------------- New Structure ------------------------------------------");
+#     # ut.reloadTexts()
+#     # ut.delete_objects_from_layer(0)
+#     # sta = Structure(5,"struc")
+#     sta = Structure(5,"struc")
+#     sta.make_object();
+#     obj_gen.init("__Main_Structure__",
+#          sta.get_vectors(),
+#          [],
+#          sta.get_faces(),
+#          sta.get_materials()
+#         )
+#
+#     # return sta.get_vectors()
+#     # sta = ut.import_image();
+#     # obj_gen.init("__Main_Structure__",
+#     #      sta[0],
+#     #      [],
+#     #      sta[1],
+#     #      []
+#     #     )
+#     # for x in sta[1]:
+#         # pass
+#     # ser = ut.sql_insert("INSERT INTO _type (tp_type, tp_def) VALUES (15,'test')")
+#     # print(ser)
+#     # data = ut.sql_query("SELECT tp_type FROM _type ;")
+#     # print(data)
+#     # sta2 = sta.get_delimiters_as_areas();
+#     # init(sta2[0],sta2[1],sta2[2],sta2[3])
 
 class Structure():
     def __init__(self, size = 5, name = "build"):
@@ -54,7 +41,7 @@ class Structure():
         self.VERTICES = [];      # [Vector(x,y,z), id ]
         self.FACES = [];         # [[id1, id2..] , id ]
         self.MATERIALS = [];     # [mat.., [fid, fid2]]
-        self.DELIMITERS = []
+        self.DELIMITERS = [];
         self.NORMALIZED_ANGLES = 60
         self.SIZE = size
         self.STRUC_HEIGHT = 2
@@ -86,7 +73,7 @@ class Structure():
             pass
         pass
 
-    def get_stored(self,name,traingulated = True):
+    def get_stored(self,name):
         structure = ut.sql_query("SELECT id FROM structures WHERE name = "+name)
 
         if structure == None :
@@ -125,7 +112,12 @@ class Structure():
 
             stored_faces.append(stored_face);
 
-        return stored_faces,stored_verts
+        dict = {
+        "faces" : stored_faces,
+        "verts" : stored_verts
+        }
+
+        return dict
 
     def render_object():
         pass
@@ -149,6 +141,8 @@ class Structure():
             self.append_faces_in_material(1,fa.get_faces_ids())
             self.append_faces(fa.get_structural_faces())
 
+        # self.save_structure();
+
 
     def add_multipe_holes_in_face(self,face,size, holsx, holsy, hx, hy):
         verts = self.get_verts_from_face(face)
@@ -171,7 +165,6 @@ class Structure():
                 self.append_faces(str.get_structural_faces())
             pass
         pass
-
 
 
     def add_hole_in_face(self, face, rad):
@@ -532,6 +525,7 @@ class Structure():
 
 
     def add_material(self ,name, diffuse, specular, alpha):
+        import bpy
         mat = bpy.data.materials.new(name)
         mat.diffuse_color = diffuse
         mat.diffuse_shader = 'LAMBERT'
@@ -559,5 +553,3 @@ class Structure():
             mates.append([value[0],facesmat])
 
         return mates
-
-# generateStruc()

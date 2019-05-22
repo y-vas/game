@@ -1,33 +1,18 @@
 #from bge import logic as L, render, events
 import math ,mathutils, random, decimal
 from mathutils import Vector, Euler
+from imports.sqlite import sql
 import bpy
 import sys, os, shutil, time
-# import imp
-
-
-dependencies_folder = "Imports"
-sqlset = os.path.join(os.path.dirname(bpy.data.filepath), "Scripts", dependencies_folder, "sqlite")
-
-# sp = sql.SQL("data");
-# scene = L.getCurrentScene()
-# SO = scene.objects
 
 def testdef():
     print("everithing OK")
 
 def sql_query(query):
-    if sqlset not in sys.path:
-       sys.path.append(sqlset)
-    import sql
-    imp.reload(sql)
     sp = sql.SQL("data");
     return sp.execute(query)
 
 def sql_insert(query):
-    if sqlset not in sys.path:
-       sys.path.append(sqlset)
-    import sql
     imp.reload(sql)
     sp = sql.SQL("data");
     ser = sp.insert_and_get_last_serial(query)
@@ -36,14 +21,11 @@ def sql_insert(query):
 def import_image():
     filepath = bpy.data.filepath
     directory = os.path.dirname(filepath)
-    scripts = os.path.join(directory, "Scripts", dependencies_folder, "PIL")
+    scripts = os.path.join(directory, "Scripts", "Imports", "PIL")
     map = os.path.join(directory, "Textures","Map","heightmap.jpg")
     # print(scripts)
     if not scripts in sys.path:
         sys.path.append(scripts)
-
-    import PIL
-    from PIL import Image ,ImageFilter
 
     im = Image.open(map)
     rgb_im = im.convert('RGB')

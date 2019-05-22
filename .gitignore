@@ -1,8 +1,3 @@
 *.blend1
 
-source/__pycache__/
-source/hud/__pycache__/
-source/imports/obj_gen/__pycache__/
-source/imports/sqlite/__pycache__/
-source/imports/movement/__pycache__/
-/__pycache_/
+__pycache__/
