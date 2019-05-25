@@ -1,20 +1,19 @@
-import sqlite3
+import sqlite3, os,bpy
 
 class SQL():
     def __init__(self, db):
         super(SQL, self).__init__()
-        self.db = os.path.join(directory,db+".db")
+        self.db = os.path.join(os.path.dirname(bpy.data.filepath),"source","data",db+".db")
         if not os.path.exists(self.db):
             open(self.db,"w")
-            self.add_database()
+            # self.add_database()
 
     def execute(self, query):
         db = sqlite3.connect(self.db)
         cursor = db.cursor()
         cursor.execute(query)
-        # user1 = cursor.fetchone() #retrieve the first row
         all_rows = cursor.fetchall()
-        db.close()
+        # db.close()
         return all_rows
 
     def execute_one(self, query):
@@ -23,7 +22,7 @@ class SQL():
         cursor.execute(query)
         user1 = cursor.fetchone() #retrieve the first row
         # all_rows = cursor.fetchall()
-        db.close()
+        # db.close()
         return user1
 
     def insert(self, query):
@@ -38,6 +37,9 @@ class SQL():
 
     def set_db_structure():
         structure = """
+
+        -- all table must have an id
+
         -- basic tables --
         CREATE TABLE IF NOT EXISTS `structures` (
         `id` INT NOT NULL AUTO_INCREMENT,
@@ -75,5 +77,5 @@ class SQL():
                 table = ins[i+1]
                 break
 
-        dat = self.execute_one("SELECT COUNT(*) FROM "+table+" ;")
+        dat = self.execute_one("SELECT id FROM "+table+" ORDER BY id desc limit 1;")
         return dat[0]

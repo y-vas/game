@@ -48,67 +48,75 @@ class Structure():
         self.IDS = 0;
 
     def save_structure(self):
-        name = self.NAME
-        i = 1;
-        while len(ut.sql_query("SELECT name FROM structures WHERE name ="+name)) > 0:
-            name = self.NAME+"_"+i;
+        name = self.NAME;
 
-        id = ut.sql_insert("INSERT INTO structures (name) VALUES ("+name+")");
+        que = ut.sql_query("select count(*) as cont from structures where name like '"+name+"%' ")[0][0];
+        if que > 0: name = self.NAME + "_" + str(que);
+
+        id = ut.sql_insert("INSERT INTO structures (name) VALUES ('" + name + "')");
         for face in self.FACES:
             verts = self.get_verts_from_face(face);
-            face_verts = []
+            face_verts = ""
             for vert in verts:
-                v = ut.sql_query("SELECT id FROM vertices WHERE x ="+vert.x+" y="+vert.y+" z ="+vert.z);
+                que = "SELECT id FROM vertices WHERE x ='"+str(vert.x)+"' AND y ='"+str(vert.y)+"' AND z='"+str(vert.z)+"'; ";
+                v = ut.sql_query(que);
                 # reuse the vertices to save posible space
+
                 if len(v) > 0:
-                    face_verts.append(v["id"]);
+                    face_verts += str(v[0][0])+","
                     continue;
 
-                vid = ut.sql_insert("INSERT INTO vertices (x,y,x) VALUES ("+vert.x+","+vert.y+","+vert.z+")");
-                face_verts.append(vid);
+                vid = ut.sql_insert("INSERT INTO vertices (x,y,z) VALUES ('"+str(vert.x)+"','"+str(vert.y)+"','"+str(vert.z)+"')");
+                face_verts += str(vid)+","
 
-                pass
             # need to convert face_vert into string to catch them better
-            id = ut.sql_insert("INSERT INTO faces (verts,id_structure) VALUES ("+face_vers+","+id+")");
+            ut.sql_insert("INSERT INTO faces (verts,id_structure) VALUES ('"+face_verts+"',"+str(id)+")");
             pass
+
+        print(name+" : STORED")
         pass
 
-    def get_stored(self,name):
-        structure = ut.sql_query("SELECT id FROM structures WHERE name = "+name)
+    def get_stored(self):
+        structure = ut.sql_query("SELECT id FROM structures WHERE name = '"+self.NAME+"' ;")
 
         if structure == None :
-            print("This object do not exist in your database!!");
+            print("This object does not exist in your database!!");
             return None;
 
         stored_verts = stored_faces = [];
 
-        faces = ut.sql_query("SELECT verts FROM faces WHERE id_structure = "+structure["id"])
+        faces = ut.sql_query("SELECT verts FROM faces WHERE id_structure = '"+str(structure[0][0])+"' ")
+
+
         for face in faces:
             stored_face = []
-            for vert in face["verts"].split(","):
-                v = ut.sql_query("SELECT * FROM vertices WHERE id = "+vert)
+            for vert in face[0].split(","):
+                if vert == "":
+                    continue;
+
+                v = ut.sql_query("SELECT x,y,z FROM vertices WHERE id = "+vert)[0]
 
                 vert_pos = len(stored_verts);
-                v = Vector((v["z"],v["y"],v["z"]));
+                v = Vector( (v[0],v[1],v[2]) );
 
-                if v in stored_verts:
-                    vert_pos = stored_verts.index(v)
-                    stored_face.append(vert_pos);
-                    continue;
+                # print(vert_pos)
+                # print(v)
+                # print(stored_verts)
+
+                # if v in stored_verts:
+                #     print("same")
+                #     print(v)
+                #     vert_pos = stored_verts.index(v)
+                #     stored_face.append(vert_pos);
+                #     continue;
 
                 stored_verts.append(v);
                 stored_face.append(vert_pos);
                 pass
 
             if len(stored_face) < 3:
-                print("A stored face doesn't all the needet vertices!!");
+                print("A stored face doesn't have all the needet vertices!!");
                 continue;
-
-            # triangulation // could be useful
-            # if traingulated and len(stored_face) != 3:
-            #     for v in stored_face:
-            #
-            #         pass
 
             stored_faces.append(stored_face);
 
@@ -117,10 +125,14 @@ class Structure():
         "verts" : stored_verts
         }
 
+        # print(dict)
+
         return dict
 
-    def render_object():
-        pass
+    def make_test_object(self):
+        self.START_POINTS = 5;
+        self.set_plane_structure();
+        self.set_structure_extrusion(False);
 
     def make_object(self):
         self.set_plane_structure();
@@ -141,7 +153,6 @@ class Structure():
             self.append_faces_in_material(1,fa.get_faces_ids())
             self.append_faces(fa.get_structural_faces())
 
-        # self.save_structure();
 
 
     def add_multipe_holes_in_face(self,face,size, holsx, holsy, hx, hy):

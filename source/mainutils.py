@@ -13,7 +13,6 @@ def sql_query(query):
     return sp.execute(query)
 
 def sql_insert(query):
-    imp.reload(sql)
     sp = sql.SQL("data");
     ser = sp.insert_and_get_last_serial(query)
     return ser
