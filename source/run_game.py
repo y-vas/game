@@ -13,4 +13,3 @@ view.prepare();
 
 def start():
     view.show();
-    pass

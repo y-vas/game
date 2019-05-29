@@ -347,11 +347,6 @@ def inArea(pointA,pointB, target):
     else:
         return False
 
-    # A X X X
-    # X F X X
-    # X X X B
-    # returns True
-
 def inRange(objlist,pointA,pointB):
     inRangePoints = []
     for point in objlist:

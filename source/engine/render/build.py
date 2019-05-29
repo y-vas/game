@@ -26,6 +26,7 @@ class PostDraw():
 
 
 	def __object(self):
+
 		glUseProgram(self.PROGRAM);
 
 		for k,v in self.PROPERETIES.items():
@@ -40,6 +41,11 @@ class PostDraw():
 			glEnd();
 
 		glUseProgram(0)
+
+	# whatch BACKFACE CULLING
+		# glFrontFace(GL_CW);
+		# glEnable(GL_CULL_FACE)
+		# glCullFace(GL_FRONT);
 
 	def __compile_shader(self, shader_type, shader_source):
 	    shader = glCreateShader(shader_type)
@@ -75,6 +81,7 @@ class PostDraw():
 			float t = clamp(d, 0.0, 2.0);
 			return vec4(color, 1.0 - t);
 		}
+
 		void main() {
 		    vec4 color = vec4(0.0);
 		    vec4 black = vec4(0.0);
@@ -93,11 +100,10 @@ class PostDraw():
 			vec4 circle = circle(viewPos, fragPos.xy/1000 , tan(timer)*0.4, orange);
 		    vec4 col = 0.5 + 0.5*sin(timer+vec4(0,2,4,0));
 			gl_FragColor = mix(color, circle, circle.a);
-
 		}
+
 		"""
 		return FragmentShader;
-
 
 	def __default_vertex_shader(self):
 		VertexShader = """

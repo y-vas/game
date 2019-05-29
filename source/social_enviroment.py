@@ -65,7 +65,6 @@ def run():
 
 
 
-
 def runSpawner():
     list = []
     for i in SO:

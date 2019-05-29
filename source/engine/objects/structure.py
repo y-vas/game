@@ -78,15 +78,14 @@ class Structure():
 
     def get_stored(self):
         structure = ut.sql_query("SELECT id FROM structures WHERE name = '"+self.NAME+"' ;")
-
         if structure == None :
             print("This object does not exist in your database!!");
             return None;
 
-        stored_verts = stored_faces = [];
+        stored_verts = [];
+        stored_faces = [];
 
         faces = ut.sql_query("SELECT verts FROM faces WHERE id_structure = '"+str(structure[0][0])+"' ")
-
 
         for face in faces:
             stored_face = []
@@ -99,16 +98,10 @@ class Structure():
                 vert_pos = len(stored_verts);
                 v = Vector( (v[0],v[1],v[2]) );
 
-                # print(vert_pos)
-                # print(v)
-                # print(stored_verts)
-
-                # if v in stored_verts:
-                #     print("same")
-                #     print(v)
-                #     vert_pos = stored_verts.index(v)
-                #     stored_face.append(vert_pos);
-                #     continue;
+                if v in stored_verts:
+                    vert_pos = stored_verts.index(v)
+                    stored_face.append(vert_pos);
+                    continue;
 
                 stored_verts.append(v);
                 stored_face.append(vert_pos);
@@ -120,25 +113,19 @@ class Structure():
 
             stored_faces.append(stored_face);
 
-        dict = {
-        "faces" : stored_faces,
-        "verts" : stored_verts
-        }
-
-        # print(dict)
+        dict = { "faces" : stored_faces, "verts" : stored_verts }
 
         return dict
 
     def make_test_object(self):
         self.START_POINTS = 5;
         self.set_plane_structure();
-        self.set_structure_extrusion(False);
+        # self.set_structure_extrusion(False);
 
     def make_object(self):
         self.set_plane_structure();
         self.set_simple_cercle(72);
         self.set_structure_extrusion(False);
-
         self.add_material('gen', (0.749,0.5725,0.392), (1.0,1.0,1), 1.0)
         self.add_material('blu', (0,0,1), (0.5,0.5,0), 0.5)
         # self.add_multipe_holes_in_face(self.FACES[3],0.7,1,8,0,0)
@@ -152,8 +139,6 @@ class Structure():
             self.append_vectors(fa.get_structural_vectors())
             self.append_faces_in_material(1,fa.get_faces_ids())
             self.append_faces(fa.get_structural_faces())
-
-
 
     def add_multipe_holes_in_face(self,face,size, holsx, holsy, hx, hy):
         verts = self.get_verts_from_face(face)
@@ -174,8 +159,6 @@ class Structure():
                 self.append_vectors(str.get_structural_vectors())
                 self.append_faces_in_material(1,str.get_faces_ids())
                 self.append_faces(str.get_structural_faces())
-            pass
-        pass
 
 
     def add_hole_in_face(self, face, rad):
@@ -388,7 +371,6 @@ class Structure():
             if ut.angleTriangleBetwenVectors(ve1,ve2,ve3) < self.NORMALIZED_ANGLES:
                 self.remove_vector_index(i)
                 break
-
 
     def remove_vector_index(self, indexVector):
         id = self.VERTICES[indexVector][1]

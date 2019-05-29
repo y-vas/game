@@ -6,14 +6,13 @@ import mathutils
 import utils
 
 cont = L.getCurrentController()
-own = cont.owner; scene = L.getCurrentScene()
-
+own = cont.owner;
+scene = L.getCurrentScene()
 SO = scene.objects; player = SO["lifter"]
 
 def WalckCitizens(targets, frams ,stressed, walkpoint):
   for i in targets:
       if i["enemy"] == False:
-
           road_points = utils.ListAllObjects(walkpoint)
           i["target"] = random.choice(road_points); i["target"].worldScale = [1,1,1]
 
@@ -28,11 +27,10 @@ def WalckCitizens(targets, frams ,stressed, walkpoint):
                   if utils.Distance(point,i)+utils.Distance(x,i["target"]) < smallest:
                       smallest = utils.Distance(point,i)+utils.Distance(x,i["target"])
                       small_point = point
-          print(small_point.worldPosition)
+          # print(small_point.worldPosition)
           small_point.worldScale = [1,0.5,0.5]
 
-          i["enemy"] = True
-
+          i["enemy"] = True;
 
       objective = i["target"]
       objective_distance = utils.Distance(i,objective)

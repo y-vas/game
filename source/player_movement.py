@@ -18,6 +18,7 @@ control2 = SO["control_cam2"]
 rig = SO["rig"]
 pause = cam["pause"]
 
+
 max_angle = 0;
 walkmode = "walk" ;
 fightmode = False ;
@@ -242,10 +243,6 @@ def run():
     else:
         for x in range(0,10):
             rig.stopAction(x)
-
-
-
-
 
 
 def Living_Status():

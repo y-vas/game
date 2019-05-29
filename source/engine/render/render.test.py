@@ -147,3 +147,60 @@ def triangle():
 
 def postDrawTriangle():
     sce.post_draw = [triangle]
+
+
+
+# ###############################
+#
+# from bge import logic
+#
+# vertex_shader = """
+# uniform vec3      iResolution;           // viewport resolution (in pixels)
+# uniform float     iTime;                 // shader playback time (in seconds)
+# uniform float     iTimeDelta;            // render time (in seconds)
+# uniform int       iFrame;                // shader playback frame
+# uniform float     iChannelTime[4];       // channel playback time (in seconds)
+# uniform vec3      iChannelResolution[4]; // channel resolution (in pixels)
+# uniform vec4      iMouse;                // mouse pixel coords. xy: current (if MLB down), zw: click
+# uniform samplerXX iChannel0..3;          // input channel. XX = 2D/Cube
+# uniform vec4      iDate;                 // (year, month, day, time in seconds)
+# uniform float     iSampleRate;
+#
+# void main() // all vertex shaders define a main() function
+#    {
+#       gl_Position = gl_ModelViewProjectionMatrix * (vec4(1.0, 0.1, 1.0, 1.0) * gl_Vertex);
+#
+#          // this line transforms the predefined attribute gl_Vertex
+#          // of type vec4 with the predefined uniform
+#          // gl_ModelViewProjectionMatrix of type mat4 and stores
+#          // the result in the predefined output variable gl_Position
+#          // of type vec4. (gl_ModelViewProjectionMatrix combines
+#          // the viewing transformation, modeling transformation and
+#          // projection transformation in one matrix.)
+#    }
+# """
+#
+# fragment_shader ="""
+# void main()
+#    {
+#       gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+#          // this fragment shader just sets the output color to opaque
+#          // red (red = 1.0, green = 0.0, blue = 0.0, alpha = 1.0)
+#    }
+# """
+#
+# object = logic.getCurrentController().owner
+# #object = cont.owner
+# for mesh in object.meshes:
+#     for material in mesh.materials:
+#         shader = material.getShader()
+#         if shader != None:
+#             if not shader.isValid():
+#                 shader.setSource(vertex_shader, fragment_shader, True)
+
+            # get the first texture channel of the material
+            #shader.setSampler('color_0', 0)
+            # get the second texture channel of the material
+            #shader.setSampler('color_1', 1)
+            # pass another uniform to the shader
+            #shader.setUniform1f('factor', 0.3)

@@ -18,7 +18,6 @@ def getIncenter(verts):
                 self.VERTICES[index] = ut.middleVector(ve2,ve3)
 
 
-
 def getAvarageWhiteSpaces(points ,divider ,x,y,z ,diameter):
     # x,y,z son los delimitadores para saber donde se generaran los centros de las areas
     # xDiameter es el diametro maximo de la area e yD...
@@ -39,9 +38,8 @@ def angleBetwenVectors(v1, v2):
     if div == 0: return 180
     fin = res/div
 
-    if fin > 1: fin = 1
-    if fin < -1: fin = -1
-
+    if fin > 1: fin = 1,
+    if fin < -1: fin = -1,
 
     x = math.acos(fin)
     y = x * 180 / math.pi
@@ -65,21 +63,11 @@ def angleTriangleBetwenVectors(v1, v2, v3):
     if div == 0: return 180
     fin = prod_escalar/div
 
-    if fin > 1: fin = 1
-    if fin < -1: fin = -1
-
-    # print("--------------Help---------------")
-    # print(v1)
-    # print(v2)
-    # print(v3)
-    # print(fin)
-    # print(abs(fin))
+    if fin > 1: fin = 1;
+    if fin < -1: fin = -1;
 
     ang = math.acos(fin)
     y = ang * 180 / math.pi
-
-    # print(ang)
-    # print(y)
 
     return y
 
@@ -236,11 +224,6 @@ def inArea(pointA,pointB, target):
         return True
     else:
         return False
-
-    # A X X X
-    # X F X X
-    # X X X B
-    # returns True
 
 def inRange(objlist,pointA,pointB):
     inRangePoints = []

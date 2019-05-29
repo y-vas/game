@@ -22,7 +22,6 @@ def generateStruc():
     #      sta.get_faces(),
     #      sta.get_materials()
     #     )
-
     # sta = ut.import_image();
     # obj_gen.init("__Main_Structure__",
     #      sta[0],
@@ -30,16 +29,12 @@ def generateStruc():
     #      sta[1],
     #      []
     #     )
-
     # for x in sta[1]:
         # pass
-
     # ser = ut.sql_insert("INSERT INTO _type (tp_type, tp_def) VALUES (15,'test')")
     # print(ser)
     # data = ut.sql_query("SELECT tp_type FROM _type ;")
     # print(data)
-
-
     # sta2 = sta.get_delimiters_as_areas();
     # init(sta2[0],sta2[1],sta2[2],sta2[3])
 
@@ -56,7 +51,6 @@ class Structure():
         self.SIZE = size
         self.STRUC_HEIGHT = 2
         self.IDS = 0;
-
 
     def make_object(self):
         self.set_plane_structure();
@@ -76,7 +70,6 @@ class Structure():
             self.append_vectors(fa.get_structural_vectors())
             self.append_faces_in_material(1,fa.get_faces_ids())
             self.append_faces(fa.get_structural_faces())
-
 
     def add_multipe_holes_in_face(self,face,size, holsx, holsy, hx, hy):
         verts = self.get_verts_from_face(face)
@@ -98,10 +91,6 @@ class Structure():
                 self.append_vectors(str.get_structural_vectors())
                 self.append_faces_in_material(1,str.get_faces_ids())
                 self.append_faces(str.get_structural_faces())
-            pass
-        pass
-
-
 
     def add_hole_in_face(self, face, rad):
         verts = self.get_verts_from_face(face)
@@ -120,8 +109,6 @@ class Structure():
         str.set_structure_extrusion(False);
 
         return str
-
-
 
     def delimite_structure_in_face(self, v_delim):
         verts = self.get_vectors()
@@ -174,8 +161,6 @@ class Structure():
             face.append(x[1])
 
         self.FACES = [[face,self.get_search_id()]]
-
-
 
     def get_verts_from_face(self, face):
         verts = []
@@ -314,7 +299,6 @@ class Structure():
             if ut.angleTriangleBetwenVectors(ve1,ve2,ve3) < self.NORMALIZED_ANGLES:
                 self.remove_vector_index(i)
                 break
-
 
     def remove_vector_index(self, indexVector):
         id = self.VERTICES[indexVector][1]
