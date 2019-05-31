@@ -1,8 +1,9 @@
 import bge
+# from bge.events import *
+# from utils.keys import *
 
 class run():
     def __init__(self, type):
-        super(run, self).__init__()
         self.RUN_TYPE = type
         self.OBJECTS = {};
 
@@ -17,7 +18,6 @@ class run():
             properties = {"timer": 10, "cont": 15 }
             draw = build.PostDraw(dict["verts"],dict["faces"], properties,"","")
             self.OBJECTS["draw"] = draw;
-
 
         if self.RUN_TYPE == "struc":
             from engine.objects import structure as st
@@ -71,4 +71,8 @@ class run():
         if self.RUN_TYPE == "render":
             from engine.render import render_basic as rb
             rb.load();
+            pass
+
+        if self.RUN_TYPE == "game":
+            print("runing")
             pass

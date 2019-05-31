@@ -1,14 +1,8 @@
-from bge import logic as L, render, events
+# from bge import logic as L, render, events
 from mathutils import Vector
 import math ,mathutils, random
 
 import sys, os, bpy
-
-# adding scripts to syspath
-directory = os.path.dirname(bpy.data.filepath)
-scripts = os.path.join(directory, "source")
-if scripts not in sys.path:
-   sys.path.append(scripts)
 
 
 
@@ -20,7 +14,6 @@ cam = SO["camera"]; reset = SO["Reset"]; empty = SO["empty"]; xyori = SO["xy_ori
 control = SO["control_cam"]; control2 = SO["control_cam2"]
 rig = SO["rig"]
 
-pause = cam["pause"]
 
 max_angle = 0
 walkmode = "walk" ; fightmode = False ; delta = 0.03
