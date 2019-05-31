@@ -17,7 +17,6 @@ def getIncenter(verts):
             if ang < self.NORMALIZED_ANGLES:
                 self.VERTICES[index] = ut.middleVector(ve2,ve3)
 
-
 def getAvarageWhiteSpaces(points ,divider ,x,y,z ,diameter):
     # x,y,z son los delimitadores para saber donde se generaran los centros de las areas
     # xDiameter es el diametro maximo de la area e yD...
