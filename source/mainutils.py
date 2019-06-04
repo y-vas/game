@@ -5,8 +5,6 @@ from imports.sqlite import sql
 import bpy
 import sys, os, shutil, time
 
-def testdef():
-    print("everithing OK")
 
 def sql_query(query):
     sp = sql.SQL("data");
@@ -199,7 +197,6 @@ def angles_of_a_triangle(A, B, C):
     cat_opu = distance(C,B)
 
     div = cat_opu/cat_adj
-
     prep = A.cross(C)
     dir = prep.dot(B)
 

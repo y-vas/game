@@ -2,9 +2,10 @@ Acte 1 "Inici de la Batalla"
   -Els soldats i el pesonatge principal practiquen al camp.
 	-Kan i l'excercit planejen l'atac a una ciutat amurallada i protegida.
 	  -En una tenda de campanya.
-		Kan --ISTJ--
-		Conseller de guerra --ENFJ--
-		Protagonista -- ENTJ --
+
+		Kan --ENTJ--
+		Conseller de guerra -- ENFJ --
+		Protagonista -- INTJ --
 
 	   --// Info de la ciutat a conqueri //--
 Les forçes de l'armada enemiga es centraven en les portes principals.
@@ -20,7 +21,7 @@ Acte 2 "Preparament"
 	-Preparen el bot i les provisions.
 Nomes partiran 3 homes per infiltrarse.
 
--ENTJ- Protagonista
+-INTJ- Protagonista
 -ISTJ- Company de confiança
 -ESFP- Comerciant capturat que ve per obligacio
 

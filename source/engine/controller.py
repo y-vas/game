@@ -34,6 +34,25 @@ class run():
             self.RUN_TYPE = "pass"
             pass
 
+        if self.RUN_TYPE == "build":
+            from engine.objects import building as st
+            from engine.objects import structure_test as loader
+
+            build = st.Building(50,"simple")
+            build.generate();
+
+            sta = build.getStructure();
+
+            loader.init("__Main_Structure__",
+                 sta.get_vectors(), [],
+                 sta.get_faces(),
+                 sta.get_materials()
+            )
+
+            self.RUN_TYPE = "pass";
+            bge.logic.endGame();
+            pass
+
         if self.RUN_TYPE == "teststruc":
             from engine.objects import structure as st
             from engine.objects import structure_test as loader

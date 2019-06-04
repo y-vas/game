@@ -119,8 +119,12 @@ class Structure():
 
     def make_test_object(self):
         self.START_POINTS = 5;
-        self.set_plane_structure();
-        # self.set_structure_extrusion(False);
+
+
+    def make_terrain(self):
+        # self.set_random_delimiters(size,cuant, area);
+        # whatssch perlin noise
+        pass
 
     def make_object(self):
         self.set_plane_structure();
@@ -176,9 +180,7 @@ class Structure():
         str.delimite_structure_in_face(verts)
         # str.STRUC_HEIGHT = 0.01
         str.set_structure_extrusion(False);
-
         return str
-
 
     def delimite_structure_in_face(self, v_delim):
         verts = self.get_vectors()
@@ -209,7 +211,6 @@ class Structure():
         for i, value in enumerate(self.VERTICES):
             angle = ut.angles_of_a_triangle(center, vec ,value[0]);
 
-            # print(i)
             print(angle)
             print(value)
 
@@ -231,8 +232,6 @@ class Structure():
             face.append(x[1])
 
         self.FACES = [[face,self.get_search_id()]]
-
-
 
     def get_verts_from_face(self, face):
         verts = []
@@ -269,21 +268,6 @@ class Structure():
         for x in self.VERTICES:
             x[0].rotate(rot)
 
-    # def getInWichFaceDoorWillBe(self):
-    #      v1indx = randint(0,self.START_POINTS-1);
-    #      v2indx = v1indx+1;
-    #
-    #      vr1 = self.VERTICES[v1indx];
-    #      vr2 = self.VERTICES[v2indx];
-    #      vr3 = Vector((vr1[0],vr1[1],self.STRUC_HEIGHT))
-    #      vr4 = Vector((vr2[0],vr2[1],self.STRUC_HEIGHT))
-    #
-    #      v3indx = next((i for i, e in enumerate(self.VERTICES) if e == vr3))
-    #      v4indx = next((i for i, e in enumerate(self.VERTICES) if e == vr4))
-    #
-    #      face = [v1indx,v3indx,v4indx,v2indx] # no canviar la estructura
-    #      return face
-
     def set_plane_structure(self):
         self.VERTICES = []
         vects = []; face = []
@@ -298,7 +282,6 @@ class Structure():
 
         while self.check_angles() == False:
             self.set_structure_min_angles();
-
 
     def set_structure_extrusion(self, normal = False):
         vertes = self.get_verts_from_face_id(0)
@@ -327,12 +310,12 @@ class Structure():
 
         self.append_vectors(verts)
 
-    def set_random_delimiters(self):
-        spaces = []; siz = self.DELIMITERS_RADIUS
-        for p in range(self.START_POINTS):
-            if p % self.DELIMITERS_DIVIDER == 0:
-                radius = randint(self.DELIMITERS_RADIUS/2*100,self.DELIMITERS_RADIUS*100)/100
-                spaces.append([ut.randVect3D(siz,siz,0),radius])
+    def set_random_delimiters(self,size,cuant, area):
+        spaces = [];
+        for p in range(cuant):
+            radius = randint(0,area*100)/100
+            spaces.append( [ ut.randVect3D(size,size,0),radius ] )
+
         self.DELIMITERS = spaces
 
     def rand_vector_out_of_structure_delimiters(self):
@@ -352,7 +335,6 @@ class Structure():
             if trys > 100: return vec
             if badVert == self.is_vector_in_delimiters(vec):
                 return vec
-
 
     def is_vector_in_delimiters(self, vector):
         for d in self.DELIMITERS:
@@ -492,11 +474,8 @@ class Structure():
                 face.append(id)
 
         self.FACES.append([face,self.get_search_id()])
-
         # if divider == 90:
         #     self.set_plane_struct_orient(Euler((0, 0, math.radians(45)), 'XYZ'))
-
-
 
     def set_structure_from_image(self):
         ret = ut.import_image("heightmap.jpg")
@@ -516,7 +495,6 @@ class Structure():
         self.IDS += 1
         return tip+str(self.IDS)
 
-
     def add_material(self ,name, diffuse, specular, alpha):
         import bpy
         mat = bpy.data.materials.new(name)
@@ -533,7 +511,6 @@ class Structure():
     def append_faces_in_material(self, mat, faces):
         for f in faces:
             self.MATERIALS[mat][1].append(f)
-
 
     def get_materials(self):
         mates = []

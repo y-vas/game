@@ -1,6 +1,13 @@
 import bpy
 
 def init(strna ,verts, edges, faces, mats):
+    try:
+        # hardcoded
+        objs = bpy.data.objects
+        objs.remove( objs[strna] ,True );
+    except Exception as e:
+        pass
+
     my_mesh = bpy.data.meshes.new(name=strna)
     my_mesh.from_pydata(verts,edges,faces)
     my_mesh.update(calc_edges = True)
