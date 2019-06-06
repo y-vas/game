@@ -1,5 +1,6 @@
 import mathutils ,random ,math
 import mainutils as ut
+
 from random import randint
 from mathutils import Vector, Euler ,Matrix
 
@@ -16,7 +17,6 @@ from mathutils import Vector, Euler ,Matrix
 #          sta.get_faces(),
 #          sta.get_materials()
 #         )
-#
 #     # return sta.get_vectors()
 #     # sta = ut.import_image();
 #     # obj_gen.init("__Main_Structure__",
@@ -25,8 +25,6 @@ from mathutils import Vector, Euler ,Matrix
 #     #      sta[1],
 #     #      []
 #     #     )
-#     # for x in sta[1]:
-#         # pass
 #     # ser = ut.sql_insert("INSERT INTO _type (tp_type, tp_def) VALUES (15,'test')")
 #     # print(ser)
 #     # data = ut.sql_query("SELECT tp_type FROM _type ;")
@@ -174,13 +172,44 @@ class Structure():
         normal = mathutils.geometry.normal(*verts)
         quat_diff = normal.to_track_quat('Z','X').to_euler()
 
+        str.set_plane_struct_orient(Euler((0, 0, math.radians(45)), 'XYZ'))
         str.set_plane_struct_orient(quat_diff)
         str.set_plane_struct_pos(newv)
 
         str.delimite_structure_in_face(verts)
         # str.STRUC_HEIGHT = 0.01
+        # str.set_structure_extrusion(False);
+        return str
+
+    def add_object_in_face(self, face, rad, height):
+        verts = self.get_verts_from_face(face)
+        str = Structure(rad,self.get_xid("H"));
+        str.set_simple_cercle(90);
+
+        newv = ut.get_center_of_polygon(verts)
+        normal = mathutils.geometry.normal(*verts)
+        quat_diff = normal.to_track_quat('Z','X').to_euler()
+
+        str.set_plane_struct_orient(Euler((0, 0, math.radians(45)), 'XYZ'))
+        str.set_plane_struct_orient(quat_diff)
+        str.set_plane_struct_pos(newv)
+
+        str.delimite_structure_in_face(verts)
+        str.STRUC_HEIGHT = height
         str.set_structure_extrusion(False);
         return str
+
+    def enters_in_face(self,face,verts):
+        strv = self.get_verts_from_face(face);
+        if ut.is_face_in_face(strv,verts) == False:
+            return False
+
+        intersectons = ut.get_points_where_edges_intersect_form_faces(strv,verts)
+        if len(intersectons) == 0:
+            return False
+
+        return True;
+
 
     def delimite_structure_in_face(self, v_delim):
         verts = self.get_vectors()
@@ -211,9 +240,9 @@ class Structure():
         for i, value in enumerate(self.VERTICES):
             angle = ut.angles_of_a_triangle(center, vec ,value[0]);
 
-            print(angle)
-            print(value)
-
+            # print(angle)
+            # print(value)
+            #
             # v = Vector((value[0][0],value[0][1],value[0][2]))
             # eul = v.to_track_quat('-Z','Y').to_euler()
             # v2 = Vector((eul[0],eul[1],eul[2]))
@@ -267,6 +296,19 @@ class Structure():
     def set_plane_struct_orient(self,rot):
         for x in self.VERTICES:
             x[0].rotate(rot)
+
+    def set_orientation(self,x,y,z):
+        rot = Euler((math.radians(x), math.radians(y), math.radians(z)), 'XYZ')
+        for x in self.VERTICES:
+            x[0].rotate(rot)
+
+    def get_center_face(self,verts):
+        center = ut.get_center_of_polygon(verts)
+        return center
+
+    def get_quat_face(self,verts):
+        normal = mathutils.geometry.normal(*verts)
+        return normal.to_track_quat('Z','X').to_euler()
 
     def set_plane_structure(self):
         self.VERTICES = []

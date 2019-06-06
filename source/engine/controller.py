@@ -38,7 +38,7 @@ class run():
             from engine.objects import building as st
             from engine.objects import structure_test as loader
 
-            build = st.Building(50,"simple")
+            build = st.Building(20,"simple")
             build.generate();
 
             sta = build.getStructure();
