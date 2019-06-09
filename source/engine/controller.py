@@ -43,11 +43,7 @@ class run():
 
             sta = build.getStructure();
 
-            loader.init("__Main_Structure__",
-                 sta.get_vectors(), [],
-                 sta.get_faces(),
-                 sta.get_materials()
-            )
+            loader.init("__Main_Structure__", sta.get_vectors(), [], sta.get_faces(), sta.get_materials() )
 
             self.RUN_TYPE = "pass";
             bge.logic.endGame();
