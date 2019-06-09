@@ -16,7 +16,7 @@ player = SO["player_capsule"]
 
 def start():
     if own["pause"] == False:
-       print("citizens dissable")
+       print("citizens dissable!")
        break
 
 def run():
