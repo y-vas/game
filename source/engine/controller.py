@@ -59,10 +59,7 @@ class run():
 
             sta = st.Structure(4,"test2")
             sta.make_test_object();
-            loader.init("__Main_Structure__",
-                 sta.get_vectors(), [],
-                 sta.get_faces(),
-                 sta.get_materials())
+            loader.init("__Main_Structure__", sta.get_vectors(), [], sta.get_faces(), sta.get_materials())
 
             sta.save_structure()
             self.RUN_TYPE = "pass"
