@@ -128,8 +128,8 @@ class Structure():
         self.set_plane_structure();
         self.set_simple_cercle(72);
         self.set_structure_extrusion(False);
-        self.add_material('gen', (0.749,0.5725,0.392), (1.0,1.0,1), 1.0)
-        self.add_material('blu', (0,0,1), (0.5,0.5,0), 0.5)
+        self.add_material('gen', (0.749,0.5725,0.392), (1.0,1.0,1), 1.0);
+        self.add_material('blu', (0,0,1), (0.5,0.5,0), 0.5);
         # self.add_multipe_holes_in_face(self.FACES[3],0.7,1,8,0,0)
 
         newFaces = []
@@ -317,7 +317,7 @@ class Structure():
             vec = self.rand_vector_out_of_structure_delimiters();
             vects.append([vec,self.get_search_id()]);
         self.VERTICES = vects;
-        self.VERTICES.sort(reverse = False, key = ut.takeSecond)
+        self.VERTICES.sort(reverse = True, key = ut.takeSecond)
         for x in self.VERTICES:
             face.append(x[1])
         self.FACES = [[face,self.get_search_id()]]
