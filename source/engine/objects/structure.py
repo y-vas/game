@@ -311,16 +311,19 @@ class Structure():
         return normal.to_track_quat('Z','X').to_euler()
 
     def set_plane_structure(self):
+
         self.VERTICES = []
         vects = []; face = []
         for vect in range(self.START_POINTS):
             vec = self.rand_vector_out_of_structure_delimiters();
             vects.append([vec,self.get_search_id()]);
+
         self.VERTICES = vects;
         self.VERTICES.sort(reverse = True, key = ut.takeSecond)
         for x in self.VERTICES:
-            face.append(x[1])
-        self.FACES = [[face,self.get_search_id()]]
+            face.append(x[1]);
+
+        self.FACES = [[face,self.get_search_id()]];
 
         while self.check_angles() == False:
             self.set_structure_min_angles();
@@ -330,13 +333,22 @@ class Structure():
         normalVec = mathutils.geometry.normal(*vertes)
 
         inverse = -1;
-        if normal == True: inverse  = 1;
-        inverse = inverse*self.STRUC_HEIGHT
-        verts = []; face = [];
+        if normal == True:
+            inverse  = 1;
+
+        inverse = inverse * self.STRUC_HEIGHT;
+
+        verts = [];
+        face = [];
 
         for i,e in enumerate(self.VERTICES):
             vect = self.VERTICES[i][0]
-            vct = Vector((vect[0]+(normalVec[0]*inverse),vect[1]+(normalVec[1]*inverse),vect[2]+(normalVec[2]*inverse)))
+            
+            vct = Vector((
+                vect[0]+ (normalVec[0] * inverse),
+                vect[1]+(normalVec[1]*inverse),
+                vect[2]+(normalVec[2]*inverse))
+                    )
             idv = self.get_search_id();
             verts.append([vct,idv])
             face.append(idv)
