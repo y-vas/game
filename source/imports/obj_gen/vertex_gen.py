@@ -7,15 +7,11 @@ from mathutils import Vector, Euler ,Matrix
 
 def generateStruc():
     print("----------------------------------- New Structure ------------------------------------------")
-
     # ut.reloadTexts()
     # ut.delete_objects_from_layer(0)
-    #
     # sta = Structure(5,"struc")
     # # sta = Structure(5,"struc")
-    #
     # sta.make_object();
-    #
     # obj_gen.init("__Main_Structure__",
     #      sta.get_vectors(),
     #      [],
@@ -23,12 +19,7 @@ def generateStruc():
     #      sta.get_materials()
     #     )
     # sta = ut.import_image();
-    # obj_gen.init("__Main_Structure__",
-    #      sta[0],
-    #      [],
-    #      sta[1],
-    #      []
-    #     )
+    # obj_gen.init("__Main_Structure__",sta[0],[],sta[1],[])
     # for x in sta[1]:
         # pass
     # ser = ut.sql_insert("INSERT INTO _type (tp_type, tp_def) VALUES (15,'test')")
@@ -423,8 +414,6 @@ class Structure():
 
         # if divider == 90:
         #     self.set_plane_struct_orient(Euler((0, 0, math.radians(45)), 'XYZ'))
-
-
 
     def set_structure_from_image(self):
         ret = ut.import_image("heightmap.jpg")

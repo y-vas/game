@@ -1,7 +1,7 @@
 from bge import logic as L
+from random import randint
 import math
 import random
-from random import randint
 import mainutils as ut
 
 cont = L.getCurrentController()
@@ -9,13 +9,14 @@ own = cont.owner;
 scene = L.getCurrentScene()
 
 SO = scene.objects;
+
 player = SO["lifter"]
 player = SO["player_capsule"]
 
 
 def start():
     if own["pause"] == False:
-       print("citizens dissable")
+       print("citizens dissable!")
        break
 
 def run():
@@ -43,6 +44,7 @@ def run():
             goto.target = goto_name
             cont.activate(goto)
             own["moving"] = False
+
 
 
 # ////////// citizens_2
