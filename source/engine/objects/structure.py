@@ -12,19 +12,10 @@ from mathutils import Vector, Euler ,Matrix
 #     sta = Structure(5,"struc")
 #     sta.make_object();
 #     obj_gen.init("__Main_Structure__",
-#          sta.get_vectors(),
-#          [],
-#          sta.get_faces(),
-#          sta.get_materials()
-#         )
+#       sta.get_vectors(), [], sta.get_faces(), sta.get_materials())
 #     # return sta.get_vectors()
 #     # sta = ut.import_image();
-#     # obj_gen.init("__Main_Structure__",
-#     #      sta[0],
-#     #      [],
-#     #      sta[1],
-#     #      []
-#     #     )
+#     # obj_gen.init("__Main_Structure__", sta[0], [], sta[1],[])
 #     # ser = ut.sql_insert("INSERT INTO _type (tp_type, tp_def) VALUES (15,'test')")
 #     # print(ser)
 #     # data = ut.sql_query("SELECT tp_type FROM _type ;")
@@ -51,8 +42,9 @@ class Structure():
         que = ut.sql_query("select count(*) as cont from structures where name like '"+name+"%' ")[0][0];
         if que > 0: name = self.NAME + "_" + str(que);
 
-        id = ut.sql_insert("INSERT INTO structures (name) VALUES ('" + name + "')");
-        for face in self.FACES:
+        id = ut.sql_insert( "INSERT INTO structures (name) VALUES ('" + name + "')" );
+
+        for fi, face in enumerate(self.FACES):
             verts = self.get_verts_from_face(face);
             face_verts = ""
             for vert in verts:
@@ -62,13 +54,13 @@ class Structure():
 
                 if len(v) > 0:
                     face_verts += str(v[0][0])+","
-                    continue;
+                    continue
 
                 vid = ut.sql_insert("INSERT INTO vertices (x,y,z) VALUES ('"+str(vert.x)+"','"+str(vert.y)+"','"+str(vert.z)+"')");
                 face_verts += str(vid)+","
 
             # need to convert face_vert into string to catch them better
-            ut.sql_insert("INSERT INTO faces (verts,id_structure) VALUES ('"+face_verts+"',"+str(id)+")");
+            ut.sql_insert("INSERT INTO faces (verts, id_structure,show_order) VALUES ('"+face_verts+"',"+str(id)+","+str(fi)+")");
             pass
 
         print(name+" : STORED")
@@ -83,11 +75,13 @@ class Structure():
         stored_verts = [];
         stored_faces = [];
 
-        faces = ut.sql_query("SELECT verts FROM faces WHERE id_structure = '"+str(structure[0][0])+"' ")
+        faces = ut.sql_query("SELECT verts FROM faces WHERE id_structure = '"+str(structure[0][0])+"' order by show_order")
 
         for face in faces:
             stored_face = []
             for vert in face[0].split(","):
+
+                print(vert)
                 if vert == "":
                     continue;
 
@@ -138,9 +132,9 @@ class Structure():
 
         # newFaces.append(self.add_hole_in_face(self.FACES[2],2))
         for fa in newFaces:
-            self.append_vectors(fa.get_structural_vectors())
-            self.append_faces_in_material(1,fa.get_faces_ids())
-            self.append_faces(fa.get_structural_faces())
+            self.append_vectors( fa.get_structural_vectors() )
+            self.append_faces_in_material(1 ,fa.get_faces_ids() )
+            self.append_faces( fa.get_structural_faces() )
 
     def add_multipe_holes_in_face(self,face,size, holsx, holsy, hx, hy):
         verts = self.get_verts_from_face(face)
@@ -343,7 +337,7 @@ class Structure():
 
         for i,e in enumerate(self.VERTICES):
             vect = self.VERTICES[i][0]
-            
+
             vct = Vector((
                 vect[0]+ (normalVec[0] * inverse),
                 vect[1]+(normalVec[1]*inverse),

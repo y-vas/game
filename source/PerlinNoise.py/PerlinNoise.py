@@ -30,7 +30,7 @@ def smoothDeterministicRandom(x, y, z=0):
 
 # ------------
 
-                
+
 # --- INTERPOLATORS ---
 
 # quickest but kinda harsh, not extremely bad though
@@ -40,12 +40,11 @@ def lerp(a, b, x):
 
 # good smoothness and not too slow
 def cosineInterpolation(a, b, x):
-    ft = x*math.pi
-    f = (1 - math.cos(ft))*0.5
+    ft = x * math.pi
+    f = (1 - math.cos(ft)) * 0.5
     return a*(1-f) + b*f
 
 # ---------------------
-
 
 def getBlendModeFor(value):
     if(value<0):
@@ -77,7 +76,7 @@ def makeNoise(x, y, z, wOffset, hOffset, randomizer, interpolator):
 
     i1 = interpolator(v1, v2, fractionX)
     i2 = interpolator(v3, v4, fractionX)
-    
+
     return interpolator(i1, i2, fractionY)
 
 
@@ -88,7 +87,7 @@ def pixelArrayAndInterpolateDraw(screen, frequency, amplitude, randomizer, inter
     for x in range(SCREEN_WIDTH):
         for y in range(SCREEN_HEIGHT):
             value = makeNoise(x, y, frequency, wOffset, hOffset, randomizer, interpolator)*amplitude
-            
+
             (aux, aux, aux) = screenArray[x][y]
             if aux+value < 0:
                 screenArray[x,y] = (0,0,0)
@@ -104,7 +103,7 @@ def pixelArrayAndInterpolateImg(screen, frequency, amplitude, randomizer, interp
     for x in range(SCREEN_WIDTH):
         for y in range(SCREEN_HEIGHT):
             value = makeNoise(x, y, frequency, wOffset, hOffset, randomizer, interpolator)*amplitude
-            
+
             [aux, aux, aux] = screen[x,y]
             if aux+value < 0:
                 screen[x,y] = [0,0,0]
@@ -128,7 +127,7 @@ def perlinNoise():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     screen.fill((127, 127, 127))
     os.system('call sendkeys.bat "pygame window" ""')
-    
+
     i = 0
     # so we don't go below the actual screen resolution
     while frequencyFor(i) < SCREEN_WIDTH:
@@ -162,7 +161,7 @@ def main():
     choice = 0
     while not (choice==1 or choice==2):
         choice = int(input("Enter 1 to visualize generation, 2 to save an image: "))
-    
+
     if choice==1:
         os.environ["SDL_VIDEO_CENTERED"] = "1"
         pygame.init()

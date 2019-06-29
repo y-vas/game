@@ -8,7 +8,7 @@ if scripts not in sys.path:
 
 from engine.controller import run
 
-view = run("bge");
+view = run("build");
 view.prepare();
 
 def start():

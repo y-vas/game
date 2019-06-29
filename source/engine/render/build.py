@@ -37,15 +37,18 @@ class PostDraw():
 			glBegin(GL_POLYGON)
 			for v in face:
 				vert = self.VERTICES[v]
-				glVertex3f (vert.x,vert.y,vert.z)
+				glVertex3f (vert.x, vert.y, vert.z);
+				
 			glEnd();
 
 		glUseProgram(0)
 
-	# whatch BACKFACE CULLING
-		# glFrontFace(GL_CW);
-		# glEnable(GL_CULL_FACE)
-		# glCullFace(GL_FRONT);
+		# whatch BACKFACE CULLING
+
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glFrontFace(GL_CCW);
+		# glEnable(GL_RASTERIZER_DISCARD)
 
 	def __compile_shader(self, shader_type, shader_source):
 	    shader = glCreateShader(shader_type)

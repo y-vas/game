@@ -19,8 +19,8 @@ class Building(object):
         for face in struc.FACES:
             verts = struc.get_verts_from_face(face);
 
-            if struc.enters_in_face(face)
-
+            # if struc.enters_in_face(face)
+            
             str = Structure(0.9, struc.get_xid("H"));
             str.set_simple_cercle(90);
 
