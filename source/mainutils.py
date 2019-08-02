@@ -20,7 +20,7 @@ def import_image():
     directory = os.path.dirname(filepath)
     scripts = os.path.join(directory, "Scripts", "Imports", "PIL")
     map = os.path.join(directory, "Textures","Map","heightmap.jpg")
-    # print(scripts)
+
     if not scripts in sys.path:
         sys.path.append(scripts)
 
@@ -39,12 +39,9 @@ def import_image():
     faces = [];
 
     for wp in range(width):
-        # if wp % div != 0:
-        #     continue;
+
         for hp in range(height):
             r, g, b = img.getpixel((wp, hp))
-            # if hp % div != 0:
-            #     continue;
             aux.append(Vector((wp/div,hp/div,r/div)))
 
     for wp in range(width):
@@ -74,15 +71,19 @@ def reloadTexts():
 
 def get_center_of_polygon(verts):
     p_center = Vector((0.0, 0.0, 0.0))
+
     if len(verts) == 0:
         return p_center
+
     for v in verts:
         p_center[0] += v[0]
         p_center[1] += v[1]
         p_center[2] += v[2]
+
     p_center[0] /= len(verts)
     p_center[1] /= len(verts)
     p_center[2] /= len(verts)
+
     return p_center
 
 
@@ -92,7 +93,7 @@ def get_points_where_edges_intersect_form_faces(face1,v_delim):
         beta = inx-1
         if inx == 0: beta = len(face1)-1;
         for index2 in range(len(v_delim)):
-            beta2 = index2-1
+            beta2 = index2 - 1
 
             if index2 == 0:
                 beta2 = len(v_delim)-1;
@@ -111,7 +112,7 @@ def get_points_where_edges_intersect_form_faces(face1,v_delim):
             d3 = distance(intersection[0],v4)
 
             if d2 > d1 or d3 > d1:
-                continue
+                continue;
 
             out.append(intersection[0])
 
@@ -136,7 +137,6 @@ def get_max_radius_in_vertices(verts):
         if dista > dist:
             dist = dista
     return dist
-
 
 def get_points_that_are_in_delited_area(v_delim, face):
     center = get_center_of_polygon(v_delim)

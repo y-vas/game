@@ -8,7 +8,9 @@ if scripts not in sys.path:
 
 from engine.controller import run
 
-view = run("build");
+# view = run("build");
+view = run("draw");
+# view = run("struc");
 view.prepare();
 
 def start():

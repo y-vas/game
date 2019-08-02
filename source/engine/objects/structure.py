@@ -1,27 +1,8 @@
 import mathutils ,random ,math
 import mainutils as ut
-
 from random import randint
 from mathutils import Vector, Euler ,Matrix
-
-# def generateStruc():
-#     print("----------------------------------- New Structure ------------------------------------------");
-#     # ut.reloadTexts()
-#     # ut.delete_objects_from_layer(0)
-#     # sta = Structure(5,"struc")
-#     sta = Structure(5,"struc")
-#     sta.make_object();
-#     obj_gen.init("__Main_Structure__",
-#       sta.get_vectors(), [], sta.get_faces(), sta.get_materials())
-#     # return sta.get_vectors()
-#     # sta = ut.import_image();
-#     # obj_gen.init("__Main_Structure__", sta[0], [], sta[1],[])
-#     # ser = ut.sql_insert("INSERT INTO _type (tp_type, tp_def) VALUES (15,'test')")
-#     # print(ser)
-#     # data = ut.sql_query("SELECT tp_type FROM _type ;")
-#     # print(data)
-#     # sta2 = sta.get_delimiters_as_areas();
-#     # init(sta2[0],sta2[1],sta2[2],sta2[3])
+import json
 
 class Structure():
     def __init__(self, size = 5, name = "build"):
@@ -42,76 +23,30 @@ class Structure():
         que = ut.sql_query("select count(*) as cont from structures where name like '"+name+"%' ")[0][0];
         if que > 0: name = self.NAME + "_" + str(que);
 
-        id = ut.sql_insert( "INSERT INTO structures (name) VALUES ('" + name + "')" );
+        dict = {
+            "vertices" : self.get_simple_vetors(),
+            "faces" : self.get_faces(),
+            # "materials" : self.get_materials()
+            "materials" : []
+        }
 
-        for fi, face in enumerate(self.FACES):
-            verts = self.get_verts_from_face(face);
-            face_verts = ""
-            for vert in verts:
-                que = "SELECT id FROM vertices WHERE x ='"+str(vert.x)+"' AND y ='"+str(vert.y)+"' AND z='"+str(vert.z)+"'; ";
-                v = ut.sql_query(que);
-                # reuse the vertices to save posible space
+        jsn = json.dumps(dict)
 
-                if len(v) > 0:
-                    face_verts += str(v[0][0])+","
-                    continue
-
-                vid = ut.sql_insert("INSERT INTO vertices (x,y,z) VALUES ('"+str(vert.x)+"','"+str(vert.y)+"','"+str(vert.z)+"')");
-                face_verts += str(vid)+","
-
-            # need to convert face_vert into string to catch them better
-            ut.sql_insert("INSERT INTO faces (verts, id_structure,show_order) VALUES ('"+face_verts+"',"+str(id)+","+str(fi)+")");
-            pass
-
+        id = ut.sql_insert( "INSERT INTO structures (name,data) VALUES ('" + name + "','" + jsn + "')" );
         print(name+" : STORED")
         pass
 
     def get_stored(self):
-        structure = ut.sql_query("SELECT id FROM structures WHERE name = '"+self.NAME+"' ;")
+        structure = ut.sql_query("SELECT data FROM structures WHERE name = '"+self.NAME+"' ;")
+
         if structure == None :
             print("This object does not exist in your database!!");
             return None;
 
-        stored_verts = [];
-        stored_faces = [];
-
-        faces = ut.sql_query("SELECT verts FROM faces WHERE id_structure = '"+str(structure[0][0])+"' order by show_order")
-
-        for face in faces:
-            stored_face = []
-            for vert in face[0].split(","):
-
-                print(vert)
-                if vert == "":
-                    continue;
-
-                v = ut.sql_query("SELECT x,y,z FROM vertices WHERE id = "+vert)[0]
-
-                vert_pos = len(stored_verts);
-                v = Vector( (v[0],v[1],v[2]) );
-
-                if v in stored_verts:
-                    vert_pos = stored_verts.index(v)
-                    stored_face.append(vert_pos);
-                    continue;
-
-                stored_verts.append(v);
-                stored_face.append(vert_pos);
-                pass
-
-            if len(stored_face) < 3:
-                print("A stored face doesn't have all the needet vertices!!");
-                continue;
-
-            stored_faces.append(stored_face);
-
-        dict = { "faces" : stored_faces, "verts" : stored_verts }
-
-        return dict
+        return json.loads(structure[0][0])
 
     def make_test_object(self):
         self.START_POINTS = 5;
-
 
     def make_terrain(self):
         # self.set_random_delimiters(size,cuant, area);
@@ -120,21 +55,21 @@ class Structure():
 
     def make_object(self):
         self.set_plane_structure();
-        self.set_simple_cercle(72);
-        self.set_structure_extrusion(False);
-        self.add_material('gen', (0.749,0.5725,0.392), (1.0,1.0,1), 1.0);
-        self.add_material('blu', (0,0,1), (0.5,0.5,0), 0.5);
-        # self.add_multipe_holes_in_face(self.FACES[3],0.7,1,8,0,0)
-
-        newFaces = []
-        for face in self.FACES:
-            newFaces.append(self.add_hole_in_face(face,0.9))
-
-        # newFaces.append(self.add_hole_in_face(self.FACES[2],2))
-        for fa in newFaces:
-            self.append_vectors( fa.get_structural_vectors() )
-            self.append_faces_in_material(1 ,fa.get_faces_ids() )
-            self.append_faces( fa.get_structural_faces() )
+        # self.set_simple_cercle(72);
+        self.set_structure_extrusion();
+        # self.add_material('gen', (0.749,0.5725,0.392), (1.0,1.0,1), 1.0);
+        # self.add_material('blu', (0,0,1), (0.5,0.5,0), 0.5);
+        # # self.add_multipe_holes_in_face(self.FACES[3],0.7,1,8,0,0)
+        #
+        # newFaces = []
+        # for face in self.FACES:
+        #     newFaces.append(self.add_hole_in_face(face,0.9))
+        #
+        # # newFaces.append(self.add_hole_in_face(self.FACES[2],2))
+        # for fa in newFaces:
+        #     self.append_vectors( fa.get_structural_vectors() )
+        #     self.append_faces_in_material(1 ,fa.get_faces_ids() )
+        #     self.append_faces( fa.get_structural_faces() )
 
     def add_multipe_holes_in_face(self,face,size, holsx, holsy, hx, hy):
         verts = self.get_verts_from_face(face)
@@ -156,7 +91,6 @@ class Structure():
                 self.append_faces_in_material(1,str.get_faces_ids())
                 self.append_faces(str.get_structural_faces())
 
-
     def add_hole_in_face(self, face, rad):
         verts = self.get_verts_from_face(face)
         str = Structure(rad,self.get_xid("H"));
@@ -172,7 +106,7 @@ class Structure():
 
         str.delimite_structure_in_face(verts)
         # str.STRUC_HEIGHT = 0.01
-        # str.set_structure_extrusion(False);
+        # str.set_structure_extrusion();
         return str
 
     def add_object_in_face(self, face, rad, height):
@@ -190,7 +124,7 @@ class Structure():
 
         str.delimite_structure_in_face(verts)
         str.STRUC_HEIGHT = height
-        str.set_structure_extrusion(False);
+        str.set_structure_extrusion();
         return str
 
     def enters_in_face(self,face,verts):
@@ -322,32 +256,18 @@ class Structure():
         while self.check_angles() == False:
             self.set_structure_min_angles();
 
-    def set_structure_extrusion(self, normal = False):
+    def set_structure_extrusion(self):
         vertes = self.get_verts_from_face_id(0)
         normalVec = mathutils.geometry.normal(*vertes)
 
-        inverse = -1;
-        if normal == True:
-            inverse  = 1;
-
-        inverse = inverse * self.STRUC_HEIGHT;
-
-        verts = [];
-        face = [];
-
+        verts = []; face = [];
         for i,e in enumerate(self.VERTICES):
-            vect = self.VERTICES[i][0]
-
-            vct = Vector((
-                vect[0]+ (normalVec[0] * inverse),
-                vect[1]+(normalVec[1]*inverse),
-                vect[2]+(normalVec[2]*inverse))
-                    )
+            vct = self.VERTICES[i][0] + (normalVec * -self.STRUC_HEIGHT)
             idv = self.get_search_id();
             verts.append([vct,idv])
             face.append(idv)
 
-        self.FACES.append([face, self.get_search_id()])
+        self.FACES.append([face[::-1], self.get_search_id()])
 
         for i, vec in enumerate(verts):
             if i == len(self.VERTICES)-1:
@@ -356,7 +276,7 @@ class Structure():
                 face = [self.VERTICES[i][1],verts[i][1],verts[i+1][1],self.VERTICES[i+1][1]]
             self.FACES.append([face, self.get_search_id()])
 
-        self.append_vectors(verts)
+        self.append_vectors(verts[::-1])
 
     def set_random_delimiters(self,size,cuant, area):
         spaces = [];
@@ -467,6 +387,13 @@ class Structure():
         vert = []
         for x in self.VERTICES:
             vert.append(x[0])
+        return vert
+
+    def get_simple_vetors(self):
+        vert = []
+        for x in self.VERTICES:
+            v = x[0]
+            vert.append([v.x,v.y,v.z])
         return vert
 
     def get_faces(self):

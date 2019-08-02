@@ -9,7 +9,6 @@ class PostDraw():
 
 		if len(vertex_shader) == 0:
 			vertex_shader = self.__default_vertex_shader();
-
 		if len(fragment_shader) == 0:
 			fragment_shader = self.__default_fragment_shader();
 
@@ -37,18 +36,12 @@ class PostDraw():
 			glBegin(GL_POLYGON)
 			for v in face:
 				vert = self.VERTICES[v]
-				glVertex3f (vert.x, vert.y, vert.z);
-				
+				glVertex3f ( vert[0], vert[1], vert[2] );
+
 			glEnd();
 
 		glUseProgram(0)
 
-		# whatch BACKFACE CULLING
-
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glFrontFace(GL_CCW);
-		# glEnable(GL_RASTERIZER_DISCARD)
 
 	def __compile_shader(self, shader_type, shader_source):
 	    shader = glCreateShader(shader_type)

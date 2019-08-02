@@ -10,7 +10,7 @@ class Building(object):
         struc = self.STRUCTURE;
         struc.STRUC_HEIGHT = self.HEIGHT
         struc.set_plane_structure();
-        struc.set_structure_extrusion(False);
+        struc.set_structure_extrusion();
 
         struc.add_material('gen', (0.749,0.5725,0.392), (1.0,1.0,1), 1.0);
         struc.add_material('blu', (0,0,1), (0.5,0.5,0), 0.5 );
@@ -20,7 +20,7 @@ class Building(object):
             verts = struc.get_verts_from_face(face);
 
             # if struc.enters_in_face(face)
-            
+
             str = Structure(0.9, struc.get_xid("H"));
             str.set_simple_cercle(90);
 
@@ -33,7 +33,7 @@ class Building(object):
 
             str.delimite_structure_in_face(verts)
             str.STRUC_HEIGHT = 0.1
-            str.set_structure_extrusion(False);
+            str.set_structure_extrusion();
 
             newFaces.append(str)
 

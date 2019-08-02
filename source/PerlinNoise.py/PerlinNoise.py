@@ -3,7 +3,6 @@ import os
 import random
 import math
 import numpy
-from PIL import Image
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 256, 256
 MAX_AMPLITUDE = 255*2/5
@@ -141,36 +140,13 @@ def perlinNoise():
     print("All done!")
 
 
-def imgPerlinNoise(filename):
-    # Create a 1024x1024x3 array of 8 bit unsigned integers
-    screen = numpy.full( (SCREEN_WIDTH,SCREEN_HEIGHT,3), 127,dtype=numpy.uint8 ) # TODO: change data type!!
-
-    i=0
-    while frequencyFor(i) < SCREEN_WIDTH:
-        print("Iteration {0}...".format(i))
-        screen = pixelArrayAndInterpolateImg(screen, frequencyFor(i), amplitudeFor(i), deterministicRandom, cosineInterpolation)
-        print("Done.")
-        i+=1
-
-    img = Image.fromarray(screen, mode='RGB')       # Create a PIL image
-    img.save("{0}.png".format(filename))                      # save to same directory
-    print("All done!")
-
 
 def main():
-    choice = 0
-    while not (choice==1 or choice==2):
-        choice = int(input("Enter 1 to visualize generation, 2 to save an image: "))
-
-    if choice==1:
-        os.environ["SDL_VIDEO_CENTERED"] = "1"
-        pygame.init()
-        perlinNoise()
-        waitForInput()
-        pygame.quit()
-    elif choice==2:
-        filename = input("Enter the desired filename (no extension): ");
-        imgPerlinNoise(filename)
+    os.environ["SDL_VIDEO_CENTERED"] = "1"
+    pygame.init()
+    perlinNoise()
+    waitForInput()
+    pygame.quit()
 
 
 if __name__ == "__main__":
