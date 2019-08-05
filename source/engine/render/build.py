@@ -9,6 +9,7 @@ class PostDraw():
 
 		if len(vertex_shader) == 0:
 			vertex_shader = self.__default_vertex_shader();
+
 		if len(fragment_shader) == 0:
 			fragment_shader = self.__default_fragment_shader();
 
@@ -25,7 +26,6 @@ class PostDraw():
 
 
 	def __object(self):
-
 		glUseProgram(self.PROGRAM);
 
 		for k,v in self.PROPERETIES.items():
@@ -36,12 +36,10 @@ class PostDraw():
 			glBegin(GL_POLYGON)
 			for v in face:
 				vert = self.VERTICES[v]
-				glVertex3f ( vert[0], vert[1], vert[2] );
-
+				glVertex3f (vert.x,vert.y,vert.z)
 			glEnd();
 
 		glUseProgram(0)
-
 
 	def __compile_shader(self, shader_type, shader_source):
 	    shader = glCreateShader(shader_type)
@@ -77,7 +75,6 @@ class PostDraw():
 			float t = clamp(d, 0.0, 2.0);
 			return vec4(color, 1.0 - t);
 		}
-
 		void main() {
 		    vec4 color = vec4(0.0);
 		    vec4 black = vec4(0.0);
@@ -96,10 +93,11 @@ class PostDraw():
 			vec4 circle = circle(viewPos, fragPos.xy/1000 , tan(timer)*0.4, orange);
 		    vec4 col = 0.5 + 0.5*sin(timer+vec4(0,2,4,0));
 			gl_FragColor = mix(color, circle, circle.a);
-		}
 
+		}
 		"""
 		return FragmentShader;
+
 
 	def __default_vertex_shader(self):
 		VertexShader = """
