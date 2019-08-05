@@ -26,6 +26,28 @@ def getAvarageWhiteSpaces(points ,divider ,x,y,z ,diameter):
             spaces.append([randVect3D(x,y,z),random.randint(-diameter*100,diameter*100)/100])
     return spaces
 
+def lerp(a, b, x):
+    return a*(1-x) + b*x
+
+def cosineInterpolation(a, b, x):
+    ft = x * math.pi
+    f = (1 - math.cos(ft)) * 0.5
+    return a*(1-f) + b*f
+
+def deterministicRandom(x, y, z=0):
+    random.seed(z+MASTER_SEED)
+    random.seed(x*random.uniform(1,2)+MASTER_SEED)
+    random.seed(y*random.uniform(1,2)+MASTER_SEED)
+    result = random.uniform(-1, 1)
+    return result
+
+def smoothDeterministicRandom(x, y, z=0):
+    corners = deterministicRandom(x-1,y-1,z) + deterministicRandom(x+1,y-1,z) + deterministicRandom(x-1,y+1,z) + deterministicRandom(x+1,y+1,z)
+    sides = deterministicRandom(x-1,y,z) + deterministicRandom(x,y-1,z) + deterministicRandom(x+1,y,z) + deterministicRandom(x,y+1,z)
+
+    return corners/16 + sides/8 + deterministicRandom(x, y, z)/4
+
+
 
 def angleBetwenVectors(v1, v2):
     mag1 = math.sqrt(v1[0]**2+v1[1]**2)

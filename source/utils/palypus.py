@@ -314,8 +314,23 @@ def display_terrain(terrain):
     """
     # Iterate through every element in the terrain...
     for i in terrain:
+
         for j in i:
+            # print(j)
+            print(j,end="  ");
+            pass
             # Print each element with some space afterwards
-            print(j, end="  ")
         # After each row is done printing, separate with a newline
         print()
+
+
+
+terrain = generate(50, 50, 1, {"X": 0.2442,
+                                 "#": 0.2558,
+                                 "O": 0.2558,
+                                 "_": 0.2558,
+                                 "-": 0.2558,
+                                 "·": 0.2558,
+                                 ".": 0.2442,
+                                 " ": 0.2558})
+display_terrain(terrain)
