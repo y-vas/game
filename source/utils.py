@@ -240,6 +240,7 @@ def inArea(pointA,pointB, target):
     # A X X X
     # X F X X
     # X X X B
+    # two years after -> wtf???
     # returns True
 
 def inRange(objlist,pointA,pointB):

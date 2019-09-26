@@ -6,7 +6,6 @@ if scripts not in sys.path:
    sys.path.append(scripts)
 
 from engine.controller import run
-
 view = run("movement");
 
 def start():
