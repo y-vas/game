@@ -6,8 +6,6 @@ class run():
         self.RUN_TYPE = type
         self.OBJECTS = {}
 
-    def prepare(self):
-
         if self.RUN_TYPE == "draw":
             from engine.objects import structure as st
             from engine.render import build
@@ -65,9 +63,16 @@ class run():
 
             self.RUN_TYPE = "pass"
 
+        if self.RUN_TYPE == "movement":
+            import sys
+            bge.logic.LibLoad(sys.path[0]+'/source/data/move.blend', 'Scene')
 
 
     def show(self):
+        if self.RUN_TYPE == "movement":
+            cube = bge.logic.getCurrentScene().objects['cube']
+            cube.applyRotation((0 , 0, 0.01))
+
         if self.RUN_TYPE == "draw":
             self.OBJECTS["draw"].use(bge.logic.getCurrentScene())
             pass

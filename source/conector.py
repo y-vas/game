@@ -1,15 +1,13 @@
 import sys, os, bpy
 
 # adding scripts to syspath
-directory = os.path.dirname(bpy.data.filepath)
-scripts = os.path.join(directory, "source")
+scripts = os.path.join(os.path.dirname(bpy.data.filepath), "source")
 if scripts not in sys.path:
    sys.path.append(scripts)
 
 from engine.controller import run
 
-view = run("loadstruc");
-view.prepare();
+view = run("movement");
 
 def start():
     view.show();
