@@ -41,3 +41,27 @@ class Player(object):
         self.MAXHEALTH = quant
     def get_life(self):
         return self.HEALTH
+
+# from bge import logic
+#
+# cont = logic.getCurrentController()
+# own = cont.owner
+# scene = logic.getCurrentScene()
+# Hbar = scene.objects['Plane']
+# HRig = scene.objects['Armature']
+# MRig = scene.objects['Armature.001']
+#
+# def main():
+#
+#     if Hbar["meter"] > Hbar["health"]:
+#         Hbar["meter"] -= 1
+#     if Hbar["meter"] < Hbar["health"]:
+#         Hbar["meter"] += 1
+#
+#     if Hbar["meter_m"] > Hbar["mana"]:
+#         Hbar["meter_m"] -= 1
+#     if Hbar["meter_m"] < Hbar["mana"]:
+#         Hbar["meter_m"] += 1
+#
+#     HRig.playAction("life_action", Hbar["meter"], Hbar["meter"])
+#     MRig.playAction("life_action.001", Hbar["meter_m"], Hbar["meter_m"])
