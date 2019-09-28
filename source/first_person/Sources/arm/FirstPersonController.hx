@@ -18,7 +18,7 @@ class FirstPersonController extends CameraController {
 #else
 
 	static inline var rotationSpeed = 1.0;
-	
+
 	var stepTime = 0.0;
 	var turnTime = 0.0;
 	var soundStep0:kha.Sound = null;
@@ -32,7 +32,6 @@ class FirstPersonController extends CameraController {
 	var anim:BoneAnimation;
 	var q = new Quat();
 	var mat = Mat4.identity();
-
 	var nextIdle = false;
 	var jumpTime = 0.0;
 	var firingTime = 0.0;
@@ -46,10 +45,10 @@ class FirstPersonController extends CameraController {
 		notifyOnInit(function() {
 			PhysicsWorld.active.notifyOnPreUpdate(preUpdate);
 			notifyOnUpdate(update);
-			
-			notifyOnRemove(function() {
-				PhysicsWorld.active.removePreUpdate(preUpdate);
-			});
+
+		notifyOnRemove(function() {
+			PhysicsWorld.active.removePreUpdate(preUpdate);
+		});
 
 			iron.data.Data.getSound("step0.wav", function(sound:kha.Sound) {
 				soundStep0 = sound;
@@ -103,7 +102,7 @@ class FirstPersonController extends CameraController {
 		m1._30 = tx;
 		m1._31 = ty;
 		m1._32 = tz;
-		
+
 		var tx = m2._30;
 		var ty = m2._31;
 		var tz = m2._32;
@@ -135,7 +134,7 @@ class FirstPersonController extends CameraController {
 			m1b._30 = tx;
 			m1b._31 = ty;
 			m1b._32 = tz;
-			
+
 			var tx = m2b._30;
 			var ty = m2b._31;
 			var tz = m2b._32;
@@ -156,13 +155,13 @@ class FirstPersonController extends CameraController {
 
 	function preUpdate() {
 		if (Input.occupied || !body.ready) return;
-		
+
 		var mouse = Input.getMouse();
 		var kb = Input.getKeyboard();
-		
+
 		if (mouse.started() && !mouse.locked) mouse.lock();
 		else if (kb.started("escape") && mouse.locked) mouse.unlock();
-		
+
 		if (nextFrameRot != 0.0) {
 			var origin = object.getChild("CameraOrigin");
 			origin.transform.rotate(xVec, nextFrameRot);
