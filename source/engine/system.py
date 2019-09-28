@@ -187,6 +187,7 @@ def run():
                 if grounded.positive:
                    lifter.setLinearVelocity((a*speed,b*speed,0), False)
                    orienter.worldOrientation = quat_a.to_euler()
+                   
             #if i == kxjr:
             #  rig.playAction("stopwalk", 0, 12, 0, 0, 0, play)
         orient = orienter.worldOrientation.to_quaternion() * tilt.worldOrientation.to_quaternion()

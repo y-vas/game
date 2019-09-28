@@ -41,6 +41,7 @@ vec4 circle(vec2 uv, vec2 pos, float rad, vec3 color) {
 	float t = clamp(d, 0.0, 2.0);
 	return vec4(color, 1.0 - t);
 }
+
 void main() {
     vec4 color = vec4(0.0);
     vec4 black = vec4(0.0);
@@ -121,7 +122,8 @@ def triangle():
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512,0, GL_RGBA, GL_UNSIGNED_BYTE, objbuf)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,GL_LINEAR)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_LINEAR)
-            '''
+    '''
+
     wid = 50
     glBegin(GL_POLYGON)
     glVertex3f (0,0, 1.0)

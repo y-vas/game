@@ -1,4 +1,4 @@
-import bge
+import bge, utils
 
 class run():
     def __init__(self, type):
@@ -13,7 +13,7 @@ class run():
             sta = st.Structure(5,"struc")
             vals = sta.get_stored("struc")
 
-            properties = {"timer": 10, "cont": 15 }
+            properties = {"timer": 10, "cont": 15}
 
             draw = build.PostDraw(vals["verts"],vals["faces"], properties,"","")
             self.OBJECTS["draw"] = draw;
@@ -64,14 +64,15 @@ class run():
             self.RUN_TYPE = "pass"
 
         if self.RUN_TYPE == "movement":
-            import sys
-            bge.logic.LibLoad(sys.path[0]+'/source/data/move.blend', 'Scene')
+            utils.lib("hud")
 
 
     def show(self):
         if self.RUN_TYPE == "movement":
-            cube = bge.logic.getCurrentScene().objects['cube']
-            cube.applyRotation((0 , 0, 0.01))
+            obs = bge.logic.getCurrentScene().objects
+            # cube = obs['cube']
+            # cube.applyRotation((0 , 0, 0.01))
+            # print(obs)
 
         if self.RUN_TYPE == "draw":
             self.OBJECTS["draw"].use(bge.logic.getCurrentScene())
