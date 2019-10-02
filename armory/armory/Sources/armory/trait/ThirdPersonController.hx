@@ -12,7 +12,7 @@ class ThirdPersonController extends CameraController {
 	public function new() { super(); }
 #else
 
-	static inline var rotationSpeed = 1.0; 
+	static inline var rotationSpeed = 1.0;
 
 	var animObject:String;
 	var idleAction:String;
@@ -39,7 +39,7 @@ class ThirdPersonController extends CameraController {
 		}
 		return null;
 	}
-	
+
 	function init() {
 		if (animObject == "") arm = findAnimation(object);
 		else arm = object.getChild(animObject);
@@ -51,9 +51,11 @@ class ThirdPersonController extends CameraController {
 
 	var xVec = Vec4.xAxis();
 	var zVec = Vec4.zAxis();
+
+
 	function preUpdate() {
 		if (Input.occupied || !body.ready) return;
-		
+
 		var mouse = Input.getMouse();
 		if (mouse.down()) {
 			camera.transform.rotate(xVec, mouse.movementY / 250 * rotationSpeed);
@@ -61,6 +63,7 @@ class ThirdPersonController extends CameraController {
 			camera.buildMatrix();
 			body.syncTransform();
 		}
+
 	}
 
 	function removed() {
@@ -87,7 +90,7 @@ class ThirdPersonController extends CameraController {
 		if (moveForward || moveBackward || moveLeft || moveRight) {
 			if (currentAction != runAction) {
 				arm.animation.play(runAction, null, 0.2);
-				currentAction = runAction;	
+				currentAction = runAction;
 			}
 			dir.mult(-4 * 0.7);
 			body.activate();
@@ -104,5 +107,6 @@ class ThirdPersonController extends CameraController {
 		body.setAngularFactor(0, 0, 0);
 		camera.buildMatrix();
 	}
+	
 #end
 }

@@ -23,7 +23,7 @@ class MeshData {
 	public function new(raw:TMeshData, done:MeshData->Void) {
 		this.raw = raw;
 		this.name = raw.name;
-		
+
 		if (raw.scale_pos != null) scalePos = raw.scale_pos;
 		if (raw.scale_tex != null) scaleTex = raw.scale_tex;
 
@@ -76,10 +76,13 @@ class MeshData {
 				index += boneCount;
 			}
 		}
-		
+
 		// Make vertex buffers
-		geom = new Geometry(this, indices, materialIndices,
-							pa, na, uva, uva1, ca, tanga, bonea, weighta, usage);
+		geom = new Geometry(this,
+				indices, materialIndices,
+				pa, na, uva, uva1, ca,
+				tanga, bonea, weighta, usage
+		);
 		geom.name = name;
 
 		done(this);
@@ -92,6 +95,7 @@ class MeshData {
 	public static function parse(name:String, id:String, done:MeshData->Void) {
 		Data.getSceneRaw(name, function(format:TSceneFormat) {
 			var raw:TMeshData = Data.getMeshRawByName(format.mesh_datas, id);
+			
 			if (raw == null) {
 				trace('Mesh data "$id" not found!');
 				done(null);
