@@ -1,3 +1,12 @@
+-ampliar_mapa
+-controlador_personatge
+
+
+in vertex gen init for blender 2.8
+  # bpy.data.collections['vertex_gen'].objects.link(my_obj) # b2.8
+-------------------------------------------------------------------------------
+
+
 Acte 1 "Inici de la Batalla"
   -Els soldats i el pesonatge principal practiquen al camp.
 	-Kan i l'excercit planejen l'atac a una ciutat amurallada i protegida.
