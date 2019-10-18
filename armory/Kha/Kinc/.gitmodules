@@ -1,0 +1,14 @@
+[submodule "Tools/kraffiti"]
+	path = Tools/kraffiti
+	url = https://github.com/armory3d/kraffiti_bin.git
+	branch = master
+	shallow = true
+[submodule "Tools/krafix"]
+	path = Tools/krafix
+	url = https://github.com/armory3d/krafix_bin.git
+	branch = master
+	shallow = true
+[submodule "Tools/kincmake"]
+	path = Tools/kincmake
+	url = https://github.com/armory3d/kincmake.git
+	branch = master
