@@ -332,9 +332,7 @@ class Window(pyglet.window.Window):
             self.strafe[1] -= 1
 
     def on_resize(self, width, height):
-        """ Called when the window is resized to a new `width` and `height`.
-
-        """
+        """ Called when the window is resized to a new `width` and `height` """
         # label
         self.label.y = height - 10
         # reticle
@@ -347,9 +345,7 @@ class Window(pyglet.window.Window):
         )
 
     def set_2d(self):
-        """ Configure OpenGL to draw in 2d.
-
-        """
+        """ Configure OpenGL to draw in 2d. """
         width, height = self.get_size()
         glDisable(GL_DEPTH_TEST)
         viewport = self.get_viewport_size()
@@ -361,9 +357,7 @@ class Window(pyglet.window.Window):
         glLoadIdentity()
 
     def set_3d(self):
-        """ Configure OpenGL to draw in 3d.
-
-        """
+        """ Configure OpenGL to draw in 3d."""
         width, height = self.get_size()
         glEnable(GL_DEPTH_TEST)
         viewport = self.get_viewport_size()
@@ -387,30 +381,24 @@ class Window(pyglet.window.Window):
         self.set_3d()
         glColor3d(1, 1, 1)
         self.model.batch.draw()
-        self.draw_focused_block()
+        # self.draw_focused_block()
         self.set_2d()
-        self.draw_label()
+        # self.draw_label()
         self.draw_reticle()
 
     def draw_focused_block(self):
-        """ Draw black edges around the block that is currently under the
-        crosshairs.
-
-        """
         vector = self.get_sight_vector()
         block = self.model.hit_test(self.position, vector)[0]
         if block:
             x, y, z = block
-            vertex_data = cube_vertices(x, y, z, 0.51)
-            glColor3d(0, 0, 0)
+            vertex_data = cube_vertices( x, y, z )
+            glColor3d(1, 0, 0)
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
             pyglet.graphics.draw(24, GL_QUADS, ('v3f/static', vertex_data))
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
 
     def draw_label(self):
-        """ Draw the label in the top left of the screen.
-
-        """
+        """ Draw the label in the top left of the screen. """
         x, y, z = self.position
         self.label.text = '%02d (%.2f, %.2f, %.2f) %d / %d' % (
             pyglet.clock.get_fps(), x, y, z,

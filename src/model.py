@@ -73,41 +73,15 @@ class Model(object):
         self._initialize()
 
     def _initialize(self):
-        """ Initialize the world by placing all the blocks.
-
-        """
-        n = 80  # 1/2 width and height of world
+        """ Initialize the world by placing all the blocks."""
+        n = 100  # 1/2 width and height of world
         s = 1  # step size
         y = 0  # initial y height
+
+
         for x in xrange(-n, n + 1, s):
             for z in xrange(-n, n + 1, s):
-                # create a layer stone an grass everywhere.
-                self.add_block((x, y - 2, z), GRASS, immediate=False)
-                self.add_block((x, y - 3, z), STONE, immediate=False)
-                # if x in (-n, n) or z in (-n, n):
-                    # # create outer walls.
-                    # for dy in xrange(-2, 3):
-                    #     self.add_block((x, y + dy, z), STONE, immediate=False)
-
-        # generate the hills randomly
-        # o = n - 10
-        # for _ in xrange(120):
-        #     a = random.randint(-o, o)  # x position of the hill
-        #     b = random.randint(-o, o)  # z position of the hill
-        #     c = -1  # base of the hill
-        #     h = random.randint(1, 6)  # height of the hill
-        #     s = random.randint(4, 8)  # 2 * s is the side length of the hill
-        #     d = 1  # how quickly to taper off the hills
-        #     t = random.choice([GRASS, SAND, BRICK])
-        #     for y in xrange(c, c + h):
-        #         for x in xrange(a - s, a + s + 1):
-        #             for z in xrange(b - s, b + s + 1):
-        #                 if (x - a) ** 2 + (z - b) ** 2 > (s + 1) ** 2:
-        #                     continue
-        #                 if (x - 0) ** 2 + (z - 0) ** 2 < 5 ** 2:
-        #                     continue
-        #                 self.add_block((x, y, z), t, immediate=False)
-        #         s -= d  # decrement side lenth so hills taper off
+                self.add_block(((x*(CUBE_SIZE*2)), (y*(CUBE_SIZE*2)) - 1, (z*(CUBE_SIZE*2))), STONE, immediate=False)
 
     def hit_test(self, position, vector, max_distance=8):
         """ Line of sight search from current position. If a block is
@@ -163,6 +137,7 @@ class Model(object):
         """
         if position in self.world:
             self.remove_block(position, immediate)
+
         self.world[position] = texture
         self.sectors.setdefault(sectorize(position), []).append(position)
         if immediate:
@@ -174,12 +149,11 @@ class Model(object):
         """ Remove the block at the given `position`.
 
         Parameters
-        ----------
+        --------------
         position : tuple of len 3
             The (x, y, z) position of the block to remove.
         immediate : bool
             Whether or not to immediately remove block from canvas.
-
         """
         del self.world[position]
         self.sectors[sectorize(position)].remove(position)
@@ -239,7 +213,7 @@ class Model(object):
 
         """
         x, y, z = position
-        vertex_data = cube_vertices(x, y, z, 0.5)
+        vertex_data = cube_vertices( x, y, z )
         texture_data = list(texture)
         # create vertex list
         # FIXME Maybe `add_indexed()` should be used instead
@@ -309,6 +283,7 @@ class Model(object):
                     if after:
                         x, y, z = after
                         after_set.add((x + dx, y + dy, z + dz))
+
         show = after_set - before_set
         hide = before_set - after_set
         for sector in show:
@@ -341,8 +316,5 @@ class Model(object):
             self._dequeue()
 
     def process_entire_queue(self):
-        """ Process the entire queue with no breaks.
-
-        """
         while self.queue:
             self._dequeue()

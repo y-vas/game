@@ -1,6 +1,16 @@
 
-def cube_vertices(x, y, z, n):
+# class Cube(object):
+#     """docstring for Cube."""
+#
+#     def __init__(self, arg):
+#         super(Cube, self).__init__()
+#         self.arg = arg
+
+CUBE_SIZE = 0.05
+
+def cube_vertices(x, y, z):
     """ Return the vertices of the cube at position x, y, z with size 2*n. """
+    n = CUBE_SIZE
 
     return [
         x-n,y+n,z-n, x-n,y+n,z+n, x+n,y+n,z+n, x+n,y+n,z-n,  # top
@@ -9,6 +19,14 @@ def cube_vertices(x, y, z, n):
         x+n,y-n,z+n, x+n,y-n,z-n, x+n,y+n,z-n, x+n,y+n,z+n,  # right
         x-n,y-n,z+n, x+n,y-n,z+n, x+n,y+n,z+n, x-n,y+n,z+n,  # front
         x+n,y-n,z-n, x-n,y-n,z-n, x-n,y+n,z-n, x+n,y+n,z-n,  # back
+    ]
+
+def displaycube(x, y, z):
+    """ Return the vertices of the cube at position x, y, z with size 2*n. """
+    n = CUBE_SIZE
+
+    return [
+        x-n,y+n,z-n, x-n,y+n,z+n, x+n,y+n,z+n, x+n,y+n,z-n,  # top
     ]
 
 
