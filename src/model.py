@@ -2,6 +2,7 @@ import pyglet
 from pyglet.graphics import TextureGroup
 from pyglet import image
 from config import *
+from src.cube import *
 import time
 from collections import deque
 from pyglet.gl import *

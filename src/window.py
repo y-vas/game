@@ -2,6 +2,7 @@ import pyglet
 from config import *
 from pyglet.window import key, mouse
 from src.model import Model , sectorize,normalize
+from src.cube import *
 from pyglet.gl import *
 
 class Window(pyglet.window.Window):
@@ -13,7 +14,7 @@ class Window(pyglet.window.Window):
         self.exclusive = False
 
         # When flying gravity has no effect and speed is increased.
-        self.flying = False
+        self.flying = True
 
         # Strafing is moving lateral to the direction you are facing,
         # e.g. moving to the left or right while continuing to face forward.
@@ -59,20 +60,18 @@ class Window(pyglet.window.Window):
         self.model = Model()
 
         # The label that is displayed in the top left of the canvas.
-        self.label = pyglet.text.Label('', font_name='Arial', font_size=18,
-            x=10, y=self.height - 10, anchor_x='left', anchor_y='top',
-            color=(0, 0, 0, 255))
+        self.label = pyglet.text.Label( '', font_name='Arial' ,
+            font_size=18 ,
+            x = 10 , y = self.height - 10 ,
+            anchor_x = 'left' ,
+            anchor_y = 'top' ,
+            color = ( 0, 0, 0, 255 )
+        )
 
-        # This call schedules the `update()` method to be called
-        # TICKS_PER_SEC. This is the main game event loop.
         pyglet.clock.schedule_interval(self.update, 1.0 / TICKS_PER_SEC)
 
     def set_exclusive_mouse(self, exclusive):
-        """ If `exclusive` is True, the game will capture the mouse, if False
-        the game will ignore the mouse.
-
-        """
-        super(Window, self).set_exclusive_mouse(exclusive)
+        super( Window, self ).set_exclusive_mouse( exclusive )
         self.exclusive = exclusive
 
     def get_sight_vector(self):
@@ -179,7 +178,7 @@ class Window(pyglet.window.Window):
             dy += self.dy * dt
         # collisions
         x, y, z = self.position
-        x, y, z = self.collide((x + dx, y + dy, z + dz), PLAYER_HEIGHT)
+        x, y, z = self.collide((x + dx, y + dy, z + dz), PLAYER_HEIGHT )
         self.position = (x, y, z)
 
     def collide(self, position, height):
@@ -214,6 +213,7 @@ class Window(pyglet.window.Window):
                 d = (p[i] - np[i]) * face[i]
                 if d < pad:
                     continue
+
                 for dy in xrange(height):  # check each height
                     op = list(np)
                     op[1] -= dy
@@ -367,7 +367,7 @@ class Window(pyglet.window.Window):
         width, height = self.get_size()
         glEnable(GL_DEPTH_TEST)
         viewport = self.get_viewport_size()
-        glViewport(0, 0, max(1, viewport[0]), max(1, viewport[1]))
+        glViewport(0, 0, max(1, viewport[0]), max(1, viewport[1]) )
         glMatrixMode(GL_PROJECTION)
         glLoadIdentity()
         gluPerspective(65.0, width / float(height), 0.1, 60.0)
