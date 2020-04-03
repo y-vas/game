@@ -49,9 +49,7 @@ def cube_vertices(x, y, z, n):
 
 
 def tex_coord(x, y, n=4):
-    """ Return the bounding vertices of the texture square.
-
-    """
+    """ Return the bounding vertices of the texture square """
     m = 1.0 / n
     dx = x * m
     dy = y * m
