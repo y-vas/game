@@ -12,35 +12,28 @@ except ImportError:
 
 start_time = time()
 
-obj = Object(
-    size = 5,
-    points= 11
-)
+obj = Object( size = 20, points= 11 )
 
-obj.mkobj( strech = 5 )
-obj.cercle(3)
+obj.cercle( )
 
-
-CUBE_POINTS = obj.verts
-CUBE_COLORS = obj.colors()
-CUBE_QUAD_VERTS = ()
+CUBE_POINTS= obj.verts
 CUBE_EDGES = obj.edges
+CUBE_COLORS= obj.colors
 
-print(CUBE_COLORS)
-exit()
+CUBE_QUAD_VERTS = ()
+# exit()
 
 def drawcube():
     global start_time
     global CUBE_POINTS ,CUBE_COLORS ,CUBE_QUAD_VERTS, CUBE_EDGES
 
-    if start_time <= time() - 1:
-        start_time = time()
-
-        obj.cercle(3)
-        CUBE_POINTS = obj.verts
-        CUBE_COLORS = obj.colors()
-        CUBE_QUAD_VERTS = ()
-        CUBE_EDGES = obj.edges
+    # if start_time <= time() - 1:
+    #     start_time = time()
+    #
+    #     CUBE_POINTS = obj.verts
+    #     CUBE_COLORS = obj.colors
+    #     CUBE_QUAD_VERTS = ()
+    #     CUBE_EDGES = obj.edges
 
     allpoints = list(zip(CUBE_POINTS, CUBE_COLORS))
 

@@ -1,30 +1,26 @@
-import mathutils ,random ,math ,os
-from random import randint as rint
+import math
 import mainutils as ut
 from mathutils import Euler ,Matrix
 from mathutils import Vector as vtr
-from mathutils.geometry import intersect_line_line as ill
+from mathutils.geometry import intersect_line_line
 
 class Object():
     def __init__(self, size = 5,points=30, name = "build"):
-        self.NAME = name;
-        self.points = points;
-        self.verts = [];         # [vtr(x,y,z), id ]
-        self.edges = [];         # [vtr(x,y,z), id ]
-        self.FACES = [];         # [[id1, id2..] , id ]
-        self.MATERIALS = [];     # [mat.., [fid, fid2]]
-        self.delimiters = []     # [vtr(xyz),dist ]
-        self.NORMALIZED_ANGLES = 60
+        self.name = name;
+
         self.size = size
-        self.STRUC_HEIGHT = 1
-        self.IDS = 0;
+        self.points = points
 
-    def cercle(self,r, s = 360):
+        self.verts = []
+        self.edges = []
+        self.colors =[]
 
-        for i in range(0,s):
-            theta = 2.0 * 3.1415926 * float(i) / float( s )
-            x = r * math.cos(theta)
-            y = r * math.sin(theta)
+
+    def cercle(self):
+        for i in range( 0 , self.points ):
+            theta = 2.0 * math.pi * float(i) / float( self.points )
+            x = self.size * math.cos(theta)
+            y = self.size * math.sin(theta)
             self.verts.append((x, y, 0))
 
         for i ,e in enumerate(self.verts):
@@ -32,6 +28,34 @@ class Object():
                 self.edges.append((len(self.verts) -1 , 0 ))
                 continue
             self.edges.append(( i-1 , i))
+
+        self.cut()
+        self.colors = tuple([ (1,0,0) for x in self.verts ])
+
+    def cut(self):
+        v3 = ( 0, 0, 0 )
+        v4 = ( 0, self.size*2 , 0 )
+
+        self.verts.append(v3)
+        self.verts.append(v4)
+
+        vl = len( self.verts )
+
+        self.edges.append( (vl-2,vl-1) )
+
+        print(v3,v4)
+        for edge in self.edges:
+            print(edge)
+            v1 = self.verts[edge[0]]
+            v2 = self.verts[edge[1]]
+
+            print('-' * 20)
+            print(v1,v2)
+            i_points = intersect_line_line(v1,v2,v3,v4)
+            if i_points != None and len(i_points) > 1:
+                    print(i_points[0] == i_points[1])
+
+
 
     def plane(self,strech=None,type=1):
         self.verts = []
@@ -43,20 +67,19 @@ class Object():
         vects.append([v1,self.sid()])
 
         for vect in range( half - 1 ):
-            vn = self.rvec(z=0,zd=False,delimited=False)
+            vn = self.rvec( z=0, zd=False, delimited=False )
             vec = vn + vects[-1][0]
 
             for i,vk in enumerate(vects):
                 if i == 0:
                     continue
 
-                if ill(vk[0],vects[i-1][0],vects[-1][0],vec):
+                if intersect_line_line(vk[0],vects[i-1][0],vects[-1][0],vec):
                     bad = True
                     break
 
             vn = self.rvec(z=0,zd=False,delimited=False)
             vec = vn + vects[-1][0]
-
 
 
             vects.append([vec,self.sid()])
@@ -493,9 +516,6 @@ class Object():
             v = x[0]
             vert.append((v.x,v.y,v.z))
         return vert
-
-    def colors(self):
-        return tuple([ (1,0,0) for x in self.verts ])
 
     def dfe(self):
         fc = self.dff()
