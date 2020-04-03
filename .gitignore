@@ -1,5 +1,1 @@
-*.blend1
-__pycache__/
-*.db
-/build_run
-khafile.js
+__pycache__
