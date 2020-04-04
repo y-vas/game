@@ -2,7 +2,7 @@ import pyglet
 from pyglet.graphics import TextureGroup
 from pyglet import image
 from config import *
-from src.cube import *
+from src.cube import cube
 import time
 from collections import deque
 from pyglet.gl import *
@@ -43,7 +43,7 @@ def normalize(position):
 
 
 
-class Model(object):
+class world(object):
 
     def __init__(self):
 
@@ -52,7 +52,6 @@ class Model(object):
 
         # A TextureGroup manages an OpenGL texture.
         self.group = TextureGroup(image.load(TEXTURE_PATH).get_texture())
-
         # A mapping from position to the texture of the block at that position.
         # This defines all the blocks that are currently in the world.
         self.world = {}
@@ -74,14 +73,23 @@ class Model(object):
 
     def _initialize(self):
         """ Initialize the world by placing all the blocks."""
-        n = 100  # 1/2 width and height of world
+        n = 10  # 1/2 width and height of world
         s = 1  # step size
         y = 0  # initial y height
 
+        self.add_block(
+            ((2 *cube.sizef),(y*cube.sizef) + 2, (2 * cube.sizef) ),
+            cube.get('stone'),
+            immediate=False
+        )
 
         for x in xrange(-n, n + 1, s):
             for z in xrange(-n, n + 1, s):
-                self.add_block(((x*(CUBE_SIZE*2)), (y*(CUBE_SIZE*2)) - 1, (z*(CUBE_SIZE*2))), STONE, immediate=False)
+                self.add_block(
+                    ((x*cube.sizef),(y*cube.sizef) - 1 ,(z*cube.sizef)),
+                    cube.get('stone'),
+                    immediate=False
+                )
 
     def hit_test(self, position, vector, max_distance=8):
         """ Line of sight search from current position. If a block is
@@ -116,7 +124,7 @@ class Model(object):
 
         """
         x, y, z = position
-        for dx, dy, dz in FACES:
+        for dx, dy, dz in cube.faces:
             if (x + dx, y + dy, z + dz) not in self.world:
                 return True
         return False
@@ -213,10 +221,11 @@ class Model(object):
 
         """
         x, y, z = position
-        vertex_data = cube_vertices( x, y, z )
+        vertex_data = cube.vertices( x, y, z )
         texture_data = list(texture)
         # create vertex list
         # FIXME Maybe `add_indexed()` should be used instead
+
         self._shown[position] = self.batch.add(24, GL_QUADS, self.group,
             ('v3f/static', vertex_data),
             ('t2f/static', texture_data))

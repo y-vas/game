@@ -2,19 +2,17 @@ import math
 import mainutils as ut
 from mathutils import Euler ,Matrix
 from mathutils import Vector as vtr
+from mathutils.geometry import intersect_line_line_2d
 from mathutils.geometry import intersect_line_line
 
-class Object():
-    def __init__(self, size = 5,points=30, name = "build"):
-        self.name = name;
-
-        self.size = size
+class object():
+    def __init__(self, size = 5, points = 30):
+        self.size   = size
         self.points = points
 
         self.verts = []
         self.edges = []
-        self.colors =[]
-
+        self.colors= []
 
     def cercle(self):
         for i in range( 0 , self.points ):
@@ -29,33 +27,57 @@ class Object():
                 continue
             self.edges.append(( i-1 , i))
 
-        self.cut()
+        self.obicex((0,0,0))
+
         self.colors = tuple([ (1,0,0) for x in self.verts ])
+
+    def obicex( self, pos ):
+        d = 1
+        for v in self.verts:
+            if ut.distance( pos, v ) > d:
+                print('----------------------')
+
+
+
+
 
     def cut(self):
         v3 = ( 0, 0, 0 )
-        v4 = ( 0, self.size*2 , 0 )
+        v4 = ( 0, self.size * 2 , 0 )
 
-        self.verts.append(v3)
-        self.verts.append(v4)
+        self.verts.append( v3 )
+        self.verts.append( v4 )
 
         vl = len( self.verts )
 
-        self.edges.append( (vl-2,vl-1) )
+        # self.edges.append( (vl-2,vl-1))
 
-        print(v3,v4)
+        everts = []
+
+        # print(v3,v4)
         for edge in self.edges:
-            print(edge)
+            # print(edge)
+
             v1 = self.verts[edge[0]]
             v2 = self.verts[edge[1]]
 
             print('-' * 20)
-            print(v1,v2)
-            i_points = intersect_line_line(v1,v2,v3,v4)
-            if i_points != None and len(i_points) > 1:
-                    print(i_points[0] == i_points[1])
+            print( v1, v2 )
+            ins = intersect_line_line_2d(v1,v2,v3,v4)
+
+            if ins != None:
+                everts.append( ( ins.x, ins.y , 0) )
 
 
+        for x in everts:
+            self.verts.append(x)
+
+            vs = len( self.verts ) - 1
+            print(self.verts[vs])
+            print(self.verts[vl-2])
+            print(x)
+
+            self.edges.append( ( vl-2, vs ) )
 
     def plane(self,strech=None,type=1):
         self.verts = []
@@ -584,24 +606,6 @@ class Object():
     def append_faces(self,faces):
         for face in faces:
             self.FACES.append(face)
-
-    def set_simple_cercle(self, divider ):
-        self.clean_structure()
-        face = [];
-
-        radi = 360;
-        while radi > 0:
-            radi -= 1
-            if radi % divider == 0:
-                vec = vtr((0, self.size,0))
-                vec.rotate(Euler((0.0, 0, math.radians(radi)), 'XYZ'))
-                id = self.sid();
-                self.verts.append([vec,id])
-                face.append(id)
-
-        self.FACES.append([face,self.sid()])
-        # if divider == 90:
-        #     self.set_plane_struct_orient(Euler((0, 0, math.radians(45)), 'XYZ'))
 
     def set_structure_from_image(self):
         ret = ut.import_image("heightmap.jpg")

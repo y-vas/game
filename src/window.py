@@ -1,8 +1,8 @@
 import pyglet
 from config import *
 from pyglet.window import key, mouse
-from src.model import Model , sectorize,normalize
-from src.cube import *
+from src.world import world , sectorize,normalize
+from src.cube import cube
 from pyglet.gl import *
 
 class Window(pyglet.window.Window):
@@ -12,10 +12,7 @@ class Window(pyglet.window.Window):
 
         # Whether or not the window exclusively captures the mouse.
         self.exclusive = False
-
-        # When flying gravity has no effect and speed is increased.
         self.flying = True
-
         # Strafing is moving lateral to the direction you are facing,
         # e.g. moving to the left or right while continuing to face forward.
         #
@@ -46,18 +43,18 @@ class Window(pyglet.window.Window):
         self.dy = 0
 
         # A list of blocks the player can place. Hit num keys to cycle.
-        self.inventory = [BRICK, GRASS, SAND]
+        # self.inventory = [BRICK, GRASS, SAND]
 
         # The current block the user can place. Hit num keys to cycle.
-        self.block = self.inventory[0]
+        # self.block = self.inventory[0]
 
         # Convenience list of num keys.
-        self.num_keys = [
-            key._1, key._2, key._3, key._4, key._5,
-            key._6, key._7, key._8, key._9, key._0]
+        # self.num_keys = [
+        #     key._1, key._2, key._3, key._4, key._5,
+        #     key._6, key._7, key._8, key._9, key._0]
 
         # Instance of the model that handles the world.
-        self.model = Model()
+        self.model = world()
 
         # The label that is displayed in the top left of the canvas.
         self.label = pyglet.text.Label( '', font_name='Arial' ,
@@ -205,7 +202,7 @@ class Window(pyglet.window.Window):
         pad = 0.25
         p = list(position)
         np = normalize(position)
-        for face in FACES:  # check all surrounding blocks
+        for face in cube.faces:  # check all surrounding blocks
             for i in xrange(3):  # check each dimension independently
                 if not face[i]:
                     continue
@@ -250,12 +247,15 @@ class Window(pyglet.window.Window):
             block, previous = self.model.hit_test(self.position, vector)
             if (button == mouse.RIGHT) or \
                     ((button == mouse.LEFT) and (modifiers & key.MOD_CTRL)):
-                # ON OSX, control + left click = right click.
+
+                 # ON OSX, control + left click = right click.
                 if previous:
                     self.model.add_block(previous, self.block)
+
             elif button == pyglet.window.mouse.LEFT and block:
                 texture = self.model.world[block]
-                if texture != STONE:
+
+                if texture != cube.get('stone'):
                     self.model.remove_block(block)
         else:
             self.set_exclusive_mouse(True)
@@ -391,7 +391,7 @@ class Window(pyglet.window.Window):
         block = self.model.hit_test(self.position, vector)[0]
         if block:
             x, y, z = block
-            vertex_data = cube_vertices( x, y, z )
+            vertex_data = cube.vertices( x, y, z )
             glColor3d(1, 0, 0)
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
             pyglet.graphics.draw(24, GL_QUADS, ('v3f/static', vertex_data))

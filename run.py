@@ -1,5 +1,5 @@
 import pygame as pg
-from src.object import Object
+from src.object import object
 from time import time
 
 try:
@@ -12,7 +12,7 @@ except ImportError:
 
 start_time = time()
 
-obj = Object( size = 20, points= 11 )
+obj = object( size = 10, points= 11 )
 
 obj.cercle( )
 
@@ -29,7 +29,6 @@ def drawcube():
 
     # if start_time <= time() - 1:
     #     start_time = time()
-    #
     #     CUBE_POINTS = obj.verts
     #     CUBE_COLORS = obj.colors
     #     CUBE_QUAD_VERTS = ()
@@ -105,7 +104,7 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         # orbit camera around by 1 degree
-        glRotatef(1, 0, 0, 1)
+        # glRotatef(1, 0, 0, 1)
 
         drawcube()
         pg.display.flip()

@@ -17,3 +17,4 @@ if sys.version_info[0] >= 3:
     xrange = range
 
 BG_COLOR = [1,1,1,1]
+TEXTURE_PATH = './src/img/block.png'
