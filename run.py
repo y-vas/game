@@ -1,5 +1,5 @@
 import pygame as pg
-from src.object import object
+from src.objects import Object
 from time import time
 
 try:
@@ -12,7 +12,7 @@ except ImportError:
 
 start_time = time()
 
-obj = object( size = 10, points= 11 )
+obj = Object( size = 10, points= 11 )
 
 obj.cercle( )
 

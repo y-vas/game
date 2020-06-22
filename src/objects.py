@@ -5,7 +5,7 @@ from mathutils import Vector as vtr
 from mathutils.geometry import intersect_line_line_2d
 from mathutils.geometry import intersect_line_line
 
-class object():
+class Object():
     def __init__(self, size = 5, points = 30):
         self.size   = size
         self.points = points
