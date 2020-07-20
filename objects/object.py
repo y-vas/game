@@ -317,7 +317,7 @@ class STRUC():
         return center
 
     def get_quat_face(self,verts):
-        normal = mathutils.geometry.normal(*verts)
+        normal = mathutils.geometry.normal( *verts )
         return normal.to_track_quat('Z','X').to_euler()
 
 
