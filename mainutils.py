@@ -4,6 +4,16 @@ from mathutils import Vector, Euler
 # from imports.sqlite import sql
 import sys, os, shutil, time
 
+
+def sql_query(query):
+    sp = sql.SQL("data");
+    return sp.execute(query)
+
+def sql_insert(query):
+    sp = sql.SQL("data");
+    ser = sp.insert_and_get_last_serial(query)
+    return ser
+
 def import_image():
     filepath = bpy.data.filepath
     directory = os.path.dirname(filepath)
@@ -266,11 +276,23 @@ def Direction(point, target):
 
     return [direction_x, direction_y]
 
+def Distance(point, target):
+    x = point.worldPosition.x ; y = point.worldPosition.y
+    Vx= target.worldPosition.x ; Vy= target.worldPosition.y
+    distance = math.sqrt((x-Vx)**2+(y-Vy)**2)
+    return distance
+
 def distance(A, B):
     return math.sqrt((B[0]-A[0])**2+(B[1]-A[1])**2+(B[2]-A[2])**2)
 
 def magnitude(A):
     return math.sqrt(A[0] * A[0] + A[1] * A[1] + A[2] * A[2])
+
+def distanceBetwenVectors(v1, v2):
+    x = v1[0] ; y = v1[1]
+    Vx= v2[0] ; Vy= v2[1]
+    distance = math.sqrt((x-Vx)**2+(y-Vy)**2)
+    return distance
 
 def Generate_Object(what, where, rang, loops):
     for x in range(1, loops):

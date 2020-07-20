@@ -1,5 +1,5 @@
 import pygame as pg
-from src.objects import Object
+from objects.object import STRUC
 from time import time
 
 try:
@@ -9,30 +9,20 @@ except ImportError:
     print("The GLCUBE example requires PyOpenGL")
     raise SystemExit
 
-
 start_time = time()
+interval = 1
 
-obj = Object( size = 10, points= 11 )
+obj = STRUC( size = 5, points = 50 )
 
-obj.cercle( )
+obj.mkobj( strech = 3 )
 
-CUBE_POINTS= obj.verts
-CUBE_EDGES = obj.edges
-CUBE_COLORS= obj.colors
-
+CUBE_POINTS = obj.dfv()
+CUBE_COLORS = obj.dfvc()
 CUBE_QUAD_VERTS = ()
-# exit()
+CUBE_EDGES = obj.dfe()
 
 def drawcube():
-    global start_time
-    global CUBE_POINTS ,CUBE_COLORS ,CUBE_QUAD_VERTS, CUBE_EDGES
-
-    # if start_time <= time() - 1:
-    #     start_time = time()
-    #     CUBE_POINTS = obj.verts
-    #     CUBE_COLORS = obj.colors
-    #     CUBE_QUAD_VERTS = ()
-    #     CUBE_EDGES = obj.edges
+    "draw the cube"
 
     allpoints = list(zip(CUBE_POINTS, CUBE_COLORS))
 
@@ -88,11 +78,7 @@ def main():
                 if event.key == pg.K_f:
                     if not fullscreen:
                         print("Changing to FULLSCREEN")
-
-                        pg.display.set_mode(
-                            (640, 480), pg.OPENGL | pg.DOUBLEBUF | pg.FULLSCREEN
-                        )
-
+                        pg.display.set_mode((640,480),pg.OPENGL|pg.DOUBLEBUF|pg.FULLSCREEN)
                     else:
                         print("Changing to windowed mode")
                         pg.display.set_mode((640, 480), pg.OPENGL | pg.DOUBLEBUF)
@@ -104,11 +90,12 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
         # orbit camera around by 1 degree
-        # glRotatef(1, 0, 0, 1)
+        glRotatef(1, 0, 0, 1)
 
         drawcube()
         pg.display.flip()
         pg.time.wait(10)
+
 
 if __name__ == "__main__":
     main()
