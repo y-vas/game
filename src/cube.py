@@ -16,10 +16,10 @@ class cube():
     def get(self, type = 'grass'):
 
         dict = {
-            'grass': cube.tex_coords((1, 0), (0, 1), (0, 0)),
-            'sand' : cube.tex_coords((1, 1), (1, 1), (1, 1)),
-            'brick': cube.tex_coords((2, 0), (2, 0), (2, 0)),
-            'stone': cube.tex_coords((2, 1), (2, 1), (2, 1))
+            'grass': cube.tex_coords( (1, 0),(0, 1),(0, 0) ),
+            'sand' : cube.tex_coords( (1, 1),(1, 1),(1, 1) ),
+            'brick': cube.tex_coords( (2, 0),(2, 0),(2, 0) ),
+            'stone': cube.tex_coords( (2, 1),(2, 1),(2, 1) )
         }
 
         return dict[type]
@@ -36,6 +36,15 @@ class cube():
             x+n,y-n,z+n, x+n,y-n,z-n, x+n,y+n,z-n, x+n,y+n,z+n,  # right
             x-n,y-n,z+n, x+n,y-n,z+n, x+n,y+n,z+n, x-n,y+n,z+n,  # front
             x+n,y-n,z-n, x-n,y-n,z-n, x-n,y+n,z-n, x+n,y+n,z-n,  # back
+        ]
+
+    @classmethod
+    def planev(self,x, y, z):
+        """ Return the vertices of the cube at position x, y, z with size 2*n. """
+        n = self.size
+
+        return [
+            x-n,y+n,z-n, x-n,y+n,z+n, x+n,y+n,z+n, x+n,y+n,z-n,  # top
         ]
 
     @staticmethod
@@ -56,4 +65,13 @@ class cube():
         result.extend(top)
         result.extend(bottom)
         result.extend(side * 4)
+        return result
+
+    @staticmethod
+    def ptex_coords():
+        top = (2, 1)
+        """ Return a list of the texture squares for the top, bottom and side """
+        top = cube.tex_coord(*top)
+        result = []
+        result.extend(top)
         return result

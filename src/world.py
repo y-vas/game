@@ -10,15 +10,10 @@ from pyglet.gl import *
 
 def sectorize(position):
     """ Returns a tuple representing the sector for the given `position`.
-
-    Parameters
-    ----------
+    Parameters ----------
     position : tuple of len 3
-
-    Returns
-    -------
+    Returns -------
     sector : tuple of len 3
-
     """
     x, y, z = normalize(position)
     x, y, z = x // SECTOR_SIZE, y // SECTOR_SIZE, z // SECTOR_SIZE
@@ -27,31 +22,23 @@ def sectorize(position):
 def normalize(position):
     """ Accepts `position` of arbitrary precision and returns the block
     containing that position.
-
-    Parameters
-    ----------
+    Parameters ----------
     position : tuple of len 3
-
-    Returns
-    -------
+    Returns -------
     block_position : tuple of ints of len 3
-
     """
     x, y, z = position
     x, y, z = (int(round(x)), int(round(y)), int(round(z)))
     return (x, y, z)
 
+class world( object ):
 
-
-class world(object):
-
-    def __init__(self):
-
+    def __init__( self ):
         # A Batch is a collection of vertex lists for batched rendering.
         self.batch = pyglet.graphics.Batch()
 
         # A TextureGroup manages an OpenGL texture.
-        self.group = TextureGroup(image.load(TEXTURE_PATH).get_texture())
+        self.group = TextureGroup( image.load(TEXTURE_PATH).get_texture() )
         # A mapping from position to the texture of the block at that position.
         # This defines all the blocks that are currently in the world.
         self.world = {}
@@ -73,23 +60,51 @@ class world(object):
 
     def _initialize(self):
         """ Initialize the world by placing all the blocks."""
-        n = 10  # 1/2 width and height of world
+        n = 1  # 1/2 width and height of world
         s = 1  # step size
         y = 0  # initial y height
 
-        self.add_block(
-            ((2 *cube.sizef),(y*cube.sizef) + 2, (2 * cube.sizef) ),
-            cube.get('stone'),
-            immediate=False
-        )
+        # self.add_block(
+        #     ((2 *cube.sizef),(y*cube.sizef) + 2, (2 * cube.sizef) ),
+        #     cube.get('stone'),
+        #     immediate=False
+        # )
+        position =(-1.0, -1.0, -1.0)
+        x, y, z = position
+        vertex_data = cube.planev( x, y, z )
+        # vertex_data = cube.vertices( x, y, z )
+        print(len( vertex_data ) / 3)
+        texture_data = list( cube.ptex_coords() )
+        # create vertex list
+        # FIXME Maybe `add_indexed()` should be used instead
 
-        for x in xrange(-n, n + 1, s):
-            for z in xrange(-n, n + 1, s):
-                self.add_block(
-                    ((x*cube.sizef),(y*cube.sizef) - 1 ,(z*cube.sizef)),
-                    cube.get('stone'),
-                    immediate=False
-                )
+        self._shown[position] = self.batch.add(int(len( vertex_data ) / 3), GL_QUADS, self.group,
+            ('v3f/static', vertex_data),
+            ('t2f/static', texture_data))
+
+        self._shown.pop(position).delete()
+
+        # for x in xrange(-n, n + 1, s):
+        #     for z in xrange(-n, n + 1, s):
+        #         self.add_block(
+        #             ((x*cube.sizef),(y*cube.sizef) - 1 ,(z*cube.sizef)),
+        #             cube.get('stone'),
+        #             immediate=False
+        #         )
+
+    def addtest(self):
+        position =(-1.0, -1.0, -1.0)
+        x, y, z = position
+        vertex_data = cube.planev( x, y, z )
+        # vertex_data = cube.vertices( x, y, z )
+        print(len( vertex_data ) / 3)
+        texture_data = list( cube.ptex_coords() )
+        # create vertex list
+        # FIXME Maybe `add_indexed()` should be used instead
+
+        self._shown[position] = self.batch.add(int(len( vertex_data ) / 3), GL_QUADS, self.group,
+            ('v3f/static', vertex_data),
+            ('t2f/static', texture_data))
 
     def hit_test(self, position, vector, max_distance=8):
         """ Line of sight search from current position. If a block is
@@ -152,6 +167,13 @@ class world(object):
             if self.exposed(position):
                 self.show_block(position)
             self.check_neighbors(position)
+
+    def add_plane(self, position, texture, immediate=True):
+        self.world[position] = texture
+        self.sectors.setdefault( sectorize(position), [] ).append(position)
+        if immediate:
+            if self.exposed(position):
+                self.show_block(position)
 
     def remove_block(self, position, immediate=True):
         """ Remove the block at the given `position`.
@@ -313,15 +335,14 @@ class world(object):
         func, args = self.queue.popleft()
         func(*args)
 
-    def process_queue(self):
+    def process_queue( self ):
         """ Process the entire queue while taking periodic breaks. This allows
         the game loop to run smoothly. The queue contains calls to
         _show_block() and _hide_block() so this method should be called if
         add_block() or remove_block() was called with immediate=False
-
         """
-        start = time.clock()
-        while self.queue and time.clock() - start < 1.0 / TICKS_PER_SEC:
+        start = time.process_time()
+        while self.queue and time.process_time() - start < 1.0 / TICKS_PER_SEC:
             self._dequeue()
 
     def process_entire_queue(self):

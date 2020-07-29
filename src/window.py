@@ -5,7 +5,7 @@ from src.world import world , sectorize,normalize
 from src.cube import cube
 from pyglet.gl import *
 
-class Window(pyglet.window.Window):
+class Window( pyglet.window.Window ):
 
     def __init__(self, *args, **kwargs):
         super(Window, self).__init__( *args, **kwargs )
@@ -55,6 +55,8 @@ class Window(pyglet.window.Window):
 
         # Instance of the model that handles the world.
         self.model = world()
+        print( self.model )
+        # exit()
 
         # The label that is displayed in the top left of the canvas.
         self.label = pyglet.text.Label( '', font_name='Arial' ,
@@ -226,6 +228,7 @@ class Window(pyglet.window.Window):
         return tuple(p)
 
     def on_mouse_press(self, x, y, button, modifiers):
+        print(self.model.addtest())
         """ Called when a mouse button is pressed. See pyglet docs for button
         amd modifier mappings.
 
@@ -311,8 +314,7 @@ class Window(pyglet.window.Window):
             self.block = self.inventory[index]
 
     def on_key_release(self, symbol, modifiers):
-        """ Called when the player releases a key. See pyglet docs for key
-        mappings.
+        """ Called when the player releases a key. See pyglet docs for key  mappings.
 
         Parameters
         ----------
@@ -335,9 +337,9 @@ class Window(pyglet.window.Window):
         """ Called when the window is resized to a new `width` and `height` """
         # label
         self.label.y = height - 10
-        # reticle
         if self.reticle:
             self.reticle.delete()
+
         x, y = self.width // 2, self.height // 2
         n = 10
         self.reticle = pyglet.graphics.vertex_list(4,
@@ -374,9 +376,7 @@ class Window(pyglet.window.Window):
         glTranslatef(-x, -y, -z)
 
     def on_draw(self):
-        """ Called by pyglet to draw the canvas.
-
-        """
+        """ Called by pyglet to draw the canvas. """
         self.clear()
         self.set_3d()
         glColor3d(1, 1, 1)

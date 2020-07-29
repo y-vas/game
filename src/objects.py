@@ -9,7 +9,6 @@ class Object():
     def __init__(self, size = 5, points = 30):
         self.size   = size
         self.points = points
-
         self.verts = []
         self.edges = []
         self.colors= []
