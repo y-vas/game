@@ -8,6 +8,7 @@ from config import *
 def setup():
     # Set the color of "clear", i.e. the sky, in rgba.
     glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2],BG_COLOR[3])
+
     # Enable culling (not rendering) of back-facing facets -- facets that aren't
     # visible to you.
     # glEnable(GL_CULL_FACE)
@@ -15,11 +16,11 @@ def setup():
     # in Manhattan distance) to the specified texture coordinates. GL_NEAREST
     # "is generally faster than GL_LINEAR, but it can produce textured images
     # with sharper edges because the transition between texture elements is not
+
     # as smooth."
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
 
-    # setup_fog
     glEnable(GL_FOG)
     # Set the fog color.
     glFogfv(GL_FOG_COLOR, (GLfloat * 4)(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2],BG_COLOR[3]))
