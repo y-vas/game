@@ -6,12 +6,13 @@ from src.cube import *
 from config import *
 
 def setup():
+
     # Set the color of "clear", i.e. the sky, in rgba.
     glClearColor(BG_COLOR[0], BG_COLOR[1], BG_COLOR[2],BG_COLOR[3])
 
     # Enable culling (not rendering) of back-facing facets -- facets that aren't
     # visible to you.
-    # glEnable(GL_CULL_FACE)
+    # glEnable( GL_CULL_FACE )
     # Set the texture minification/magnification function to GL_NEAREST (nearest
     # in Manhattan distance) to the specified texture coordinates. GL_NEAREST
     # "is generally faster than GL_LINEAR, but it can produce textured images
